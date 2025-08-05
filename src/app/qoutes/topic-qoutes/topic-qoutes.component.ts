@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/utility/api.service';
@@ -14,6 +14,7 @@ export class TopicQoutesComponent implements OnInit {
   qoutesList: any = [];
   topicName: string = "";
   private subscription: Subscription = new Subscription();
+
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -35,7 +36,9 @@ export class TopicQoutesComponent implements OnInit {
           }
         });
         this.subscription.add(topicQoutes$);
+
         this.commonSer.updateStatsCount();
+
       }
     })
   }

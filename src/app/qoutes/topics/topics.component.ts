@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/utility/api.service';
@@ -13,6 +13,7 @@ export class TopicsComponent implements OnInit {
 
   topicsList: any = [];
   private subscription: Subscription = new Subscription();
+  @Input() fromHome: boolean = false;
 
   constructor(
     private router: Router,
@@ -22,7 +23,10 @@ export class TopicsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTopics();
-    this.commonSer.updateStatsCount();
+
+    if (!this.fromHome) {
+      this.commonSer.updateStatsCount();
+    }
   }
 
   getTopics = () => {

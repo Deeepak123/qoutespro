@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from './footer/footer.component';
 import { Top100Component } from './top100/top100.component';
 import { HomeComponent } from './home/home.component';
+import { StatsComponent } from './stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { HomeComponent } from './home/home.component';
     FooterComponent,
     HomeComponent,
     Top100Component,
+    StatsComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,33 @@
+<div fxLayout="column" [ngStyle.xs]="{'margin-top':'10vh'}" style="margin-top:17vh;">
+    <div fxLayout="row">
+        <div fxFlex>
+            <div fxLayout="row">
+                <div fxFlex>
+                    <!-- HEADER -->
+                    <div fxLayout="row">
+                        <div fxFlex>
+                            <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}"
+                                fxLayoutAlign="center center">Stats</div>
+                        </div>
+                    </div>
+
+                    <!-- CONTENT -->
+                    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="20px">
+                        <div fxFlex.lt-sm="95%" fxFlex.sm="45%" fxFlex.md="30%" fxFlex.gt-md="20%"
+                            *ngFor="let stat of statsDataList;let index=index"
+                            onmouseover="this.style.boxShadow='12px 14px 15px rgba(0, 0, 0, 0.4)';"
+                            onmouseout="this.style.boxShadow='none';">
+                            <mat-card style="margin-top: 25px;cursor: pointer;">
+                                <mat-card-content class="textFont">
+                                    <p>{{stat.countDate | date: 'yyyy-MM-dd'}}</p>
+                                    <p><b>{{stat.count}}</b></p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height: 100px;"></div>

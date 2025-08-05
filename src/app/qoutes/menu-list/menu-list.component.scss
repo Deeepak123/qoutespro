@@ -27,8 +27,20 @@
   cursor: pointer;
 }
 
+
 .mat-mdc-button:not(:disabled) {
   color: #FFF !important;
+}
+
+.contact-footer {
+  position: absolute;
+  bottom: 20px;
+  /* or 0 if you want it flush with the bottom */
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
 }
 
 .home:hover {
@@ -49,4 +61,15 @@
 .topHun:hover {
   color: #5a5a5a;
   font-weight: bolder;
+}
+
+.contactUs {
+  font-family: 'Q Regular';
+  color: #FFF;
+  opacity: 0.5;
+  font-weight: 500;
+  font-size: .9rem;
+  line-height: 33px;
+  text-align: center;
+  word-wrap: break-word;
 }

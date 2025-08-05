@@ -69,4 +69,8 @@ export class ApiService {
   // saveStatsR(jsonObj: any[]): Observable<any> {
   //   return this.http.post<any>(environment.SERVICE_URL + 'api/qoutes/saveStatsR', jsonObj, httpOptionsWithAuthToken);
   // }
+
+  getStats(): Observable<JSON> {
+    return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getStats', httpOptionsWithAuthToken);
+  }
 }

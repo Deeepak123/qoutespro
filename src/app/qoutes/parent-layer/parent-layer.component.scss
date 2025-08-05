@@ -5,7 +5,14 @@ mat-list {
 .matCardStyle {
     min-height: 100vh;
     overflow-x: hidden;
+    overflow: auto;
+    scrollbar-width: none;
 }
+
+.matCardStyle::-webkit-scrollbar {
+    display: none;
+}
+
 
 .matDrawerStyle {
     background: #000;

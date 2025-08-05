@@ -3,7 +3,7 @@
         <!-- FOR LEFT GAP -->
         <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div>
         <div fxFlex>
-            <div fxLayout="row">
+            <div fxLayout="row" style="margin-top: 3vh">
                 <div fxFlex>
                     <!-- HEADER -->
                     <!-- <div fxLayout="row">
@@ -51,7 +51,7 @@
     </div>
 
     <!-- AUTHORS -->
-    <app-authors></app-authors>
+    <app-authors [fromHome]="true"></app-authors>
 
     <div fxLayout="row" style="margin-top: 50px;">
         <div fxFlex>
@@ -60,7 +60,7 @@
     </div>
 
     <!-- TOPICS -->
-    <app-topics></app-topics>
+    <app-topics [fromHome]="true"></app-topics>
 
     <div style="height: 100px;"></div>
 

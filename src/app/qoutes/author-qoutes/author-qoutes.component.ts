@@ -33,7 +33,10 @@ export class AuthorQoutesComponent implements OnInit {
             this.modifyData(res);
           }
         });
+
         this.subscription.add(authorQoutes$);
+
+        debugger;
         this.commonSer.updateStatsCount();
       }
     })

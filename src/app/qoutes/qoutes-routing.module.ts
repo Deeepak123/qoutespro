@@ -7,6 +7,7 @@ import { AuthorQoutesComponent } from './author-qoutes/author-qoutes.component';
 import { TopicQoutesComponent } from './topic-qoutes/topic-qoutes.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { HomeComponent } from './home/home.component';
+import { StatsComponent } from './stats/stats.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,7 @@ const routes: Routes = [
       { path: 'topics', component: TopicsComponent },
       { path: 'topic/:topicId/:topicName', component: TopicQoutesComponent },
       { path: 'search-results', component: SearchResultsComponent },
-
+      { path: 'sQ', component: StatsComponent },
     ],
   },
 ];

@@ -24,6 +24,7 @@ export class SearchResultsComponent implements OnInit {
       this.modifyData(JSON.parse(tempList));
     }
 
+    debugger;
     this.commonSer.updateStatsCount();
   }
 

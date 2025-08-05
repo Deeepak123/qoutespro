@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/utility/api.service';
@@ -14,6 +14,7 @@ export class AuthorsComponent implements OnInit {
   authorsList: any = [];
   searchText: string = "";
   private subscription: Subscription = new Subscription();
+  @Input() fromHome: boolean = false;
 
   constructor(
     private router: Router,
@@ -23,7 +24,11 @@ export class AuthorsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAuthors();
-    this.commonSer.updateStatsCount();
+    debugger;
+
+    if (!this.fromHome) {
+      this.commonSer.updateStatsCount();
+    }
   }
 
   getAuthors = () => {
