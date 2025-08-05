@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@font-face {
+    font-family: "Q Black";
+    src: url("./assets/fonts/Tisa\ Sans\ Pro\ Black.ttf");
+}
+
+@font-face {
+    font-family: "Q Bold";
+    src: url("./assets/fonts/Tisa\ Sans\ Pro\ Bold.ttf");
+}
+
+@font-face {
+    font-family: "Q ExBold";
+    src: url("./assets/fonts/Tisa\ Sans\ Pro\ ExtraBold.ttf");
+}
+
+@font-face {
+    font-family: "Q ExLight";
+    src: url("./assets/fonts/Tisa\ Sans\ Pro\ ExtraLight.ttf");
+}
+
+@font-face {
+    font-family: "Q Light";
+    src: url("./assets/fonts/Tisa\ Sans\ Pro\ Light.ttf");
+}
+
+@font-face {
+    font-family: "Q Medium";
+    src: url("./assets/fonts/Tisa\ Sans\ Pro\ Medium.ttf");
+}
+
+@font-face {
+    font-family: "Q Regular";
+    src: url("./assets/fonts/Tisa\ Sans\ Pro\ Regular.ttf");
+}
+
+body {
+    //background: #D3D3D3
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 0px;
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: #c7c2c2;
+}

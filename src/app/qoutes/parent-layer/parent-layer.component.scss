@@ -1,0 +1,68 @@
+mat-list {
+    cursor: pointer;
+}
+
+.matCardStyle {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.matDrawerStyle {
+    background: #000;
+    color: #FFFFFF;
+}
+
+.headerTxt {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+}
+
+.logoBig {
+    width: 118px;
+    height: 35px;
+}
+
+.logoSmall {
+    width: 110px;
+    height: 32px;
+}
+
+.textFont {
+    font-family: 'Q ExLight';
+    color: #FFF;
+    font-weight: 500;
+    font-size: 1.10rem;
+    text-align: center;
+}
+
+.home:hover {
+    font-weight: bold;
+}
+
+.authors:hover {
+    font-weight: bold;
+}
+
+.topics:hover {
+    font-weight: bold;
+}
+
+.selectedMenuStyle {
+    font-weight: bold;
+}
+
+button:focus {
+    outline: none
+}
+
+.searchIcon {
+    position: absolute;
+    height: 27px;
+    width: 27px;
+    float: right;
+    top: 6px;
+    right: 35px;
+    cursor: pointer !important;
+}

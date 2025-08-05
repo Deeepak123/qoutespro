@@ -1,0 +1,40 @@
+.cardStyle {
+    width: 450px;
+}
+
+.textHeader {
+    font-family: 'Q ExBold';
+    color: #5a5a5a;
+    font-weight: bolder;
+    font-size: 1.50rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+    max-width: 450px;
+}
+
+.textFont {
+    font-family: 'Q Regular';
+    color: #5a5a5a;
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.textFont2 {
+    font-family: 'Q Black';
+    color: #5a5a5a;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.authorName {
+    margin-top: 0px;
+    float: right;
+    cursor: pointer !important;
+}

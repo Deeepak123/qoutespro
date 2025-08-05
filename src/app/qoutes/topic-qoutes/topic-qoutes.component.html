@@ -1,0 +1,67 @@
+<div fxLayout="column" [ngStyle.gt-sm]="{'margin-top':'10vh'}" style="margin-top:8vh;">
+    <div fxLayout="row">
+        <!-- FOR LEFT GAP -->
+        <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div>
+        <div fxFlex>
+            <div fxLayout="row">
+                <div fxFlex>
+                    <div fxLayout="row">
+                        <div fxFlex style="display: flex;justify-content: center;">
+                            <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}">{{topicName}}
+                                <i>~Quotes</i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- CONTENT -->
+                    <div fxLayout="row" *ngFor="let item of qoutesList;let index=index" style="margin-top:5px;">
+                        <div fxFlex style="display: flex;justify-content: center;">
+                            <mat-card [ngStyle.xs]="{'width': '-webkit-fill-available'}" class="cardStyle"
+                                style="margin-top: 35px;">
+                                <!-- <mat-card-header style="justify-content: center;">
+                                    <div (click)="selectedAuthor(item)" mat-card-avatar class="imageIcon">
+                                    </div>
+                                </mat-card-header> -->
+                                <mat-card-content style="padding-top: 5px;">
+                                    <img style="width: 40px;height: 25px;" src="../../../assets/images/doubleQuote.png">
+                                    <p class="textFont" style="margin-top: 15px;">
+                                        {{item.qoutes}}
+                                    </p>
+                                    <p (click)="selectedAuthor(item)" class="textFont2 authorName">
+                                        ~{{item.authorName}}
+                                    </p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FOR RIGHT GAP -->
+        <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div>
+    </div>
+
+    <div fxLayout="row" style="margin-top: 50px;">
+        <div fxFlex>
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+
+    <!-- TOPICS -->
+    <app-topics></app-topics>
+
+    <div fxLayout="row" style="margin-top: 0px;">
+        <div fxFlex>
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+
+    <!-- AUTHORS -->
+    <app-authors></app-authors>
+
+    <div style="height: 100px;"></div>
+
+    <!-- FOOTER -->
+    <app-footer></app-footer>
+</div>

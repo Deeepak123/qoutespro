@@ -1,0 +1,71 @@
+<div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
+    <div class="row">
+        <div class="col-12">
+            <mat-drawer-container>
+                <mat-drawer #drawer mode="over" position="end" [ngClass.lt-sm]="'col-12'" [ngClass.gt-sm]="'col-sm-4'"
+                    [ngClass.sm]="'col-sm-6'" class="matDrawerStyle" style="overflow: hidden;">
+                    <app-menu-list [drawer]="drawer"></app-menu-list>
+                </mat-drawer>
+                <mat-drawer-content>
+                    <mat-card class="mat-elevation-z6 col matCardStyle">
+                        <nav style="background: black;height: 55px;" [ngStyle.gt-sm]="{'height':'60px'}" class=" navbar fixed-top navbar-light custom-container col-12 col-sm-12 col-md-12 col-xs-12
+                            primary-txt-color">
+                            <div class="col">
+                                <div class="row">
+                                    <!-- LOGO -->
+                                    <div class="col-sm-2 col-4">
+                                        <img (click)="routTo('/home')" class="img-fluid" [ngClass.gt-sm]="'logoBig'"
+                                            [ngClass.sm]="'logoSmall'" [ngClass.lt-sm]="'logoSmall'"
+                                            src="../../../assets/images/logo1.png" style="cursor: pointer;">
+                                    </div>
+                                    <!-- MIDDLE -->
+                                    <div class="col-sm-9 col-6 primary-txt-color no-padding"
+                                        style="white-space:pre-line;">
+                                        <div fxHide.lt-sm="true">
+                                            <button [ngClass]="{'selectedMenuStyle': selectedMenu == 'home'}"
+                                                (click)="routTo('/home')" mat-button class="textFont home">Home</button>
+                                            <button [ngClass]="{'selectedMenuStyle': selectedMenu == 'authors'}"
+                                                (click)="routTo('/authors')" mat-button
+                                                class="textFont authors">Authors</button>
+                                            <button [ngClass]="{'selectedMenuStyle': selectedMenu == 'topics'}"
+                                                (click)="routTo('/topics')" mat-button
+                                                class="textFont topics">Topics</button>
+
+                                            <!-- SEARCH UI -->
+                                            <!-- (keyup)="searchGlobal()" -->
+                                            <div fxHide.sm="true" style="width:300px;float: right;">
+                                                <input [(ngModel)]="searchedKeyword" placeholder="Search..."
+                                                    name="globalSearch" autocomplete="off" maxlength="30"
+                                                    style="border-radius: 9px;border:1px solid #c5c5c5; background: white;"
+                                                    type="text" class="form-control">
+                                                <img *ngIf="searchedKeyword.length > 2" (click)="searchGlobal()"
+                                                    src="../../../assets/images/searchIcon.svg" class="searchIcon">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- MENU -->
+                                    <div class="col-sm-1 col-2 text-right">
+                                        <span class="material-icons"
+                                            style="cursor: pointer;color: white;vertical-align: -webkit-baseline-middle;"
+                                            (click)="openToggle()">
+                                            menu
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                        <div fxLayout="row">
+                            <!-- <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div> -->
+                            <div fxFlex>
+                                <div>
+                                    <router-outlet></router-outlet>
+                                </div>
+                            </div>
+                            <!-- <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div> -->
+                        </div>
+                    </mat-card>
+                </mat-drawer-content>
+            </mat-drawer-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+.textHeader {
+    font-family: 'Q ExBold';
+    color: #5a5a5a;
+    font-weight: bolder;
+    font-size: 1.50rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.textFont {
+    font-family: 'Q Medium';
+    color: #5a5a5a;
+    font-weight: 500;
+    font-size: 1.10rem;
+    line-height: 33px;
+    text-align: center;
+    margin-top: 6px;
+}
+
+::placeholder {
+    font-family: 'Q Light';
+    color: #5a5a5a;
+}
+
+::ng-deep .mat-card-header-text {
+    margin: 0px;
+}
