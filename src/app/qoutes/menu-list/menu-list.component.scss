@@ -17,14 +17,18 @@
 }
 
 .textHeader {
-  font-family: 'Q Light';
-  color: #FFF;
-  font-weight: bold;
+  font-family: 'Q Light' !important;
+  color: #FFF !important;
+  font-weight: bold !important;
   font-size: 1.50rem;
   line-height: 33px;
   text-align: center;
   word-wrap: break-word;
   cursor: pointer;
+}
+
+.mat-mdc-button:not(:disabled) {
+  color: #FFF !important;
 }
 
 .home:hover {
