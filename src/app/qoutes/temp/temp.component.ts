@@ -465,9 +465,9 @@ export class TempComponent implements OnInit {
     let totalLoss = 0;
 
     failureCountsOnly.forEach((count, index) => {
-      if (count > 18) {
+      if (count > 36) {
         // Full failure
-        totalLoss += 18;
+        totalLoss += 36;
         // console.log(`Failure #${index + 1}: FULL LOSS of 36`);
       } else {
         // Partial loss but succeeded
