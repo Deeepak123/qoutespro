@@ -490,7 +490,7 @@ export class TempComponent implements OnInit {
 
     console.log("✅ Success within 36:", successWithin36.length); // 14
     console.log("❌ Fail over 36:", failOver36.length); // 5
-    console.log("📊 Success Rate:", ((successWithin36.length / failureCountsOnly.length) * 100).toFixed(2) + "%");
+    console.log("📊 Success Rate:", ((successWithin36.length / failOver36.length) * 100).toFixed(2) + "%");
   }
 
   afterGapsSameDistanceLogic() {
