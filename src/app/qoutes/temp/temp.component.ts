@@ -11,7 +11,8 @@ export class TempComponent implements OnInit {
   extractedNumbers: number[] = [];
   output: string[] = [];
   extractedText: string = '';
-  betNumber: any;
+  betNumber: number = 0;
+  userInput: number = 0;
 
   wheel = [
     0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6,
@@ -23,21 +24,28 @@ export class TempComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  extractNumbers(): void {
+  extractNumbers(from: any): void {
     this.extractedNumbers = [];
 
     // Create a dummy DOM element to parse HTML
     const parser = new DOMParser();
     const doc = parser.parseFromString(this.htmlInput, 'text/html');
+    let elements: NodeListOf<HTMLElement> | null = null;
 
-    const elements = doc.querySelectorAll('.roulette-history-item__value-text--XeOtB');
+    if (from == "playT") {
+      elements = doc.querySelectorAll('.roulette-history-item__value-text--XeOtB');
+    } else if (from == "evo") {
+      elements = doc.querySelectorAll('.value--dd5c7');
+    }
 
-    elements.forEach((el) => {
-      const text = el.textContent?.trim();
-      if (text && !isNaN(Number(text))) {
-        this.extractedNumbers.push(Number(text));
-      }
-    });
+    if (elements) {
+      elements.forEach((el) => {
+        const text = el.textContent?.trim();
+        if (text && !isNaN(Number(text))) {
+          this.extractedNumbers.push(Number(text));
+        }
+      });
+    }
 
     this.extractedText = this.extractedNumbers.join(',');
     console.log(this.extractedNumbers);
@@ -47,6 +55,15 @@ export class TempComponent implements OnInit {
   onExtractedTextChange() {
     const parts = this.extractedText.split(',').map(p => p.trim());
     this.extractedNumbers = parts.map(Number).filter(num => !isNaN(num));
+
+    const input = Number(this.userInput);
+
+    if (!isNaN(input)) {
+      this.betNumber = this.nextBetLogic(input);
+      console.log("Next Bet:", this.betNumber);
+    } else {
+      console.error("Invalid number input");
+    }
 
     //next bet
     // this.betNumber = this.nextBetLogic(0);
@@ -68,10 +85,10 @@ export class TempComponent implements OnInit {
     // this.betNumber = this.nextBetLogic(-5);
     // this.betNumber = this.nextBetLogic(-6);
     // this.betNumber = this.nextBetLogic(-7);
-    this.betNumber = this.nextBetLogic(-8);
+    // this.betNumber = this.nextBetLogic(-8);
     // this.betNumber  = this.nextBetLogic(-9);
     // this.betNumber  = this.nextBetLogic(-10);
-    console.log("--------NEXT BET: " + this.betNumber)
+    // console.log("--------NEXT BET: " + this.betNumber)
   }
 
   getRouletteDistancesLine() {
@@ -102,6 +119,7 @@ export class TempComponent implements OnInit {
       }
     }
 
+    //LINE WISE
     const result0 = this.lineDistanceLogic(0);
     const result1 = this.lineDistanceLogic(1);
     const result2 = this.lineDistanceLogic(2);
@@ -124,6 +142,32 @@ export class TempComponent implements OnInit {
     const result8a = this.lineDistanceLogic(-8);
     const result9a = this.lineDistanceLogic(-9);
     const result10a = this.lineDistanceLogic(-10);
+
+
+    // //ALTERNATE
+    // const result0 = this.alterDistanceLogic(0);
+    // const result1 = this.alterDistanceLogic(1);
+    // const result2 = this.alterDistanceLogic(2);
+    // const result3 = this.alterDistanceLogic(3);
+    // const result4 = this.alterDistanceLogic(4);
+    // const result5 = this.alterDistanceLogic(5);
+    // const result6 = this.alterDistanceLogic(6);
+    // const result7 = this.alterDistanceLogic(7);
+    // const result8 = this.alterDistanceLogic(8);
+    // const result9 = this.alterDistanceLogic(9);
+    // const result10 = this.alterDistanceLogic(10);
+
+    // const result1a = this.alterDistanceLogic(-1);
+    // const result2a = this.alterDistanceLogic(-2);
+    // const result3a = this.alterDistanceLogic(-3);
+    // const result4a = this.alterDistanceLogic(-4);
+    // const result5a = this.alterDistanceLogic(-5);
+    // const result6a = this.alterDistanceLogic(-6);
+    // const result7a = this.alterDistanceLogic(-7);
+    // const result8a = this.alterDistanceLogic(-8);
+    // const result9a = this.alterDistanceLogic(-9);
+    // const result10a = this.alterDistanceLogic(-10);
+
 
 
     console.log("----------Same Distance-----------");
@@ -255,6 +299,56 @@ export class TempComponent implements OnInit {
       const prev = sequence[i];
       const curr = sequence[i - 1];
       const came = sequence[i - 2];
+
+      const { direction, distance } = this.getDistance(prev, curr);
+      const adjustedDistance = distance + incrementDistance;
+      const expected = this.getNextBetNumber(curr, direction, adjustedDistance);
+
+      const success = came === expected;
+      if (success) {
+        resultLog.push({
+          failureCount: success ? failureCount : -1,
+          prev,
+          curr,
+          came,
+          expected,
+          direction,
+          distance,
+          adjustedDistance,
+          success,
+        });
+        failureCount = 0;
+      } else {
+        failureCount++;
+      }
+    }
+
+    return resultLog;
+  }
+
+  alterDistanceLogic(incrementDistance: any) {
+    debugger;
+    const failuresBeforeSuccess: number[] = [];
+    const sequence = this.extractedNumbers;
+
+    const resultLog: {
+      prev: number;
+      curr: number;
+      came: number;
+      expected: number;
+      direction: 'LEFT' | 'RIGHT';
+      distance: number;
+      adjustedDistance: number;
+      success: boolean;
+      failureCount: number;
+    }[] = [];
+
+    let failureCount = 0; // Track ongoing failures across iterations
+
+    for (let i = sequence.length - 1; i >= 4; i--) {
+      const prev = sequence[i];
+      const curr = sequence[i - 2];
+      const came = sequence[i - 4];
 
       const { direction, distance } = this.getDistance(prev, curr);
       const adjustedDistance = distance + incrementDistance;
