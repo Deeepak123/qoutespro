@@ -50,6 +50,7 @@ export class TempComponent implements OnInit {
     this.extractedText = this.extractedNumbers.join(',');
     console.log(this.extractedNumbers);
     this.getRouletteDistancesLine();
+    this.howManyLeftRightStats();
   }
 
   onExtractedTextChange() {
@@ -131,6 +132,14 @@ export class TempComponent implements OnInit {
     const result8 = this.lineDistanceLogic(8);
     const result9 = this.lineDistanceLogic(9);
     const result10 = this.lineDistanceLogic(10);
+    const result11 = this.lineDistanceLogic(11);
+    const result12 = this.lineDistanceLogic(12);
+    const result13 = this.lineDistanceLogic(13);
+    const result14 = this.lineDistanceLogic(14);
+    const result15 = this.lineDistanceLogic(15);
+    const result16 = this.lineDistanceLogic(16);
+    const result17 = this.lineDistanceLogic(17);
+    const result18 = this.lineDistanceLogic(18);
 
     const result1a = this.lineDistanceLogic(-1);
     const result2a = this.lineDistanceLogic(-2);
@@ -142,6 +151,14 @@ export class TempComponent implements OnInit {
     const result8a = this.lineDistanceLogic(-8);
     const result9a = this.lineDistanceLogic(-9);
     const result10a = this.lineDistanceLogic(-10);
+    const result11a = this.lineDistanceLogic(-11);
+    const result12a = this.lineDistanceLogic(-12);
+    const result13a = this.lineDistanceLogic(-13);
+    const result14a = this.lineDistanceLogic(-14);
+    const result15a = this.lineDistanceLogic(-15);
+    const result16a = this.lineDistanceLogic(-16);
+    const result17a = this.lineDistanceLogic(-17);
+    const result18a = this.lineDistanceLogic(-18);
 
 
     // //ALTERNATE
@@ -203,6 +220,30 @@ export class TempComponent implements OnInit {
     console.log("----------+10 Distance-----------");
     console.log(result10);
     this.printFailureList(result10);
+    console.log("----------+11 Distance-----------");
+    console.log(result11);
+    this.printFailureList(result11);
+    console.log("----------+12 Distance-----------");
+    console.log(result12);
+    this.printFailureList(result12);
+    console.log("----------+13 Distance-----------");
+    console.log(result13);
+    this.printFailureList(result13);
+    console.log("----------+14 Distance-----------");
+    console.log(result14);
+    this.printFailureList(result14);
+    console.log("----------+15 Distance-----------");
+    console.log(result15);
+    this.printFailureList(result15);
+    console.log("----------+16 Distance-----------");
+    console.log(result16);
+    this.printFailureList(result16);
+    console.log("----------+17 Distance-----------");
+    console.log(result17);
+    this.printFailureList(result17);
+    console.log("----------+18 Distance-----------");
+    console.log(result18);
+    this.printFailureList(result18);
 
 
 
@@ -237,6 +278,31 @@ export class TempComponent implements OnInit {
     console.log("----------10 Distance-----------");
     console.log(result10a);
     this.printFailureList(result10a);
+    console.log("----------11 Distance-----------");
+    console.log(result11a);
+    this.printFailureList(result11a);
+    console.log("----------12 Distance-----------");
+    console.log(result12a);
+    this.printFailureList(result12a);
+    console.log("----------13 Distance-----------");
+    console.log(result13a);
+    this.printFailureList(result13a);
+    console.log("---------14 Distance-----------");
+    console.log(result14a);
+    this.printFailureList(result14a);
+    console.log("----------15 Distance-----------");
+    console.log(result15a);
+    this.printFailureList(result15a);
+    console.log("----------16 Distance-----------");
+    console.log(result16a);
+    this.printFailureList(result16a);
+    console.log("----------17 Distance-----------");
+    console.log(result17a);
+    this.printFailureList(result17a);
+    console.log("----------18 Distance-----------");
+    console.log(result18a);
+    this.printFailureList(result18a);
+
   }
 
   getDistance(from: number, to: number): { direction: 'LEFT' | 'RIGHT'; distance: number } {
@@ -417,7 +483,163 @@ export class TempComponent implements OnInit {
     console.log(`\nTotal Profit: ${totalProfit}`);
     console.log(`Total Loss: ${totalLoss}`);
     console.log(`Net Profit/Loss: ${net}`);
+
+    const maxRounds = 18;
+    const successWithin36 = failureCountsOnly.filter(gap => gap <= maxRounds);
+    const failOver36 = failureCountsOnly.filter(gap => gap > maxRounds);
+
+    console.log("✅ Success within 18:", successWithin36.length); // 14
+    console.log("❌ Fail over 18:", failOver36.length); // 5
+    console.log("📊 Success Rate:", ((successWithin36.length / failureCountsOnly.length) * 100).toFixed(2) + "%");
   }
 
+  afterGapsSameDistanceLogic() {
+    const sequence = this.extractedNumbers; // latest to oldest
 
+    const resultLog: {
+      failureCount: number;
+      prev: number;
+      curr: number;
+      came: number;
+      expected: number;
+      direction: 'LEFT' | 'RIGHT';
+      distance: number;
+      success: boolean;
+    }[] = [];
+
+    let failureCount = 0;
+
+    for (let i = sequence.length - 1; i >= 2; i--) {
+      const i0 = sequence[i];       // oldest
+      const i1 = sequence[i - 1];   // next
+      const i2 = sequence[i - 2];   // came after that
+
+      const { direction, distance } = this.getDistance(i0, i1);
+      const expected = this.getNextBetNumber(i1, direction, distance);
+
+      const success = i2 === expected;
+
+      if (success) {
+        resultLog.push({
+          failureCount: success ? failureCount : -1,
+          prev: i0,
+          curr: i1,
+          came: i2,
+          expected,
+          direction,
+          distance,
+          success,
+        });
+        failureCount = 0;
+      } else {
+        failureCount++;
+      }
+    }
+
+    return resultLog;
+  }
+
+  howManyLeftRightStats() {
+    const reversed = [...this.extractedNumbers].reverse();
+    this.output = [];
+
+    const leftCounts: { [key: number]: number } = {};
+    const rightCounts: { [key: number]: number } = {};
+
+    const leftGaps: { [key: number]: number[] } = {};
+    const rightGaps: { [key: number]: number[] } = {};
+
+    const lastSeenLeftIndex: { [key: number]: number } = {};
+    const lastSeenRightIndex: { [key: number]: number } = {};
+
+    for (let i = 1; i < reversed.length; i++) {
+      const current = reversed[i];
+      const previous = reversed[i - 1];
+
+      const prevIndex = this.wheel.indexOf(previous);
+      const currentIndex = this.wheel.indexOf(current);
+
+      if (prevIndex === -1 || currentIndex === -1) {
+        this.output.push(`${previous}, ${current} = INVALID`);
+        continue;
+      }
+
+      const rightDistance = (currentIndex - prevIndex + this.wheel.length) % this.wheel.length;
+      const leftDistance = (prevIndex - currentIndex + this.wheel.length) % this.wheel.length;
+
+      if (rightDistance < leftDistance) {
+        this.output.push(`${previous}, ${current} = RIGHT ${rightDistance}`);
+
+        rightCounts[rightDistance] = (rightCounts[rightDistance] || 0) + 1;
+
+        if (rightCounts[rightDistance] > 1 && lastSeenRightIndex[rightDistance] !== undefined) {
+          const gap = i - lastSeenRightIndex[rightDistance] - 1;
+          if (!rightGaps[rightDistance]) rightGaps[rightDistance] = [];
+          rightGaps[rightDistance].push(gap);
+        }
+        lastSeenRightIndex[rightDistance] = i;
+
+      } else if (leftDistance < rightDistance) {
+        this.output.push(`${previous}, ${current} = LEFT ${leftDistance}`);
+
+        leftCounts[leftDistance] = (leftCounts[leftDistance] || 0) + 1;
+
+        if (leftCounts[leftDistance] > 1 && lastSeenLeftIndex[leftDistance] !== undefined) {
+          const gap = i - lastSeenLeftIndex[leftDistance] - 1;
+          if (!leftGaps[leftDistance]) leftGaps[leftDistance] = [];
+          leftGaps[leftDistance].push(gap);
+        }
+        lastSeenLeftIndex[leftDistance] = i;
+
+      } else {
+        this.output.push(`${previous}, ${current} = SAME`);
+      }
+    }
+
+    console.log("----------------STATS LEFT RIGHT TYPE--------------------");
+    console.log("LEFT Counts:", leftCounts);
+    console.log("RIGHT Counts:", rightCounts);
+
+    console.log("LEFT Gaps:", leftGaps);     // Example: LEFT 3: [4, 1, 2]
+    console.log("RIGHT Gaps:", rightGaps);   // Example: RIGHT 2: [5, 3, 1]
+
+    const calculateProfitStats = (gapsMap: { [key: number]: number[] }, side: string) => {
+      Object.keys(gapsMap).forEach(key => {
+        const failureCountsOnly = gapsMap[+key];
+        let totalProfit = 0;
+        let totalLoss = 0;
+        const maxRounds = 18;
+
+        failureCountsOnly.forEach((count) => {
+          if (count > maxRounds) {
+            totalLoss += maxRounds;
+          } else {
+            const profit = 36 - count;
+            totalProfit += profit;
+            totalLoss += count;
+          }
+        });
+
+        const net = totalProfit - totalLoss;
+        const successWithin36 = failureCountsOnly.filter(gap => gap <= maxRounds);
+        const failOver36 = failureCountsOnly.filter(gap => gap > maxRounds);
+        const total = failureCountsOnly.length;
+
+        console.log(`\n💥 ${side}${key} PROFIT STATS:`);
+        console.log(`Total Entries: ${total}`);
+        console.log(`✅ Success within 18 rounds: ${successWithin36.length}`);
+        console.log(`❌ Failures over 18 rounds: ${failOver36.length}`);
+        console.log(`Total Profit: ${totalProfit}`);
+        console.log(`Total Loss: ${totalLoss}`);
+        console.log(`Net Profit/Loss: ${net}`);
+        console.log(`📊 Success Rate: ${((successWithin36.length / total) * 100).toFixed(2)}%`);
+      });
+    };
+
+    console.log("\n============= PROFIT STATS FOR LEFT =============");
+    calculateProfitStats(leftGaps, "LEFT");
+
+    console.log("\n============= PROFIT STATS FOR RIGHT =============");
+    calculateProfitStats(rightGaps, "RIGHT");
+  }
 }
