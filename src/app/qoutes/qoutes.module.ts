@@ -18,6 +18,7 @@ import { FooterComponent } from './footer/footer.component';
 import { Top100Component } from './top100/top100.component';
 import { HomeComponent } from './home/home.component';
 import { StatsComponent } from './stats/stats.component';
+import { TempComponent } from './temp/temp.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { StatsComponent } from './stats/stats.component';
     HomeComponent,
     Top100Component,
     StatsComponent,
+    TempComponent,
   ],
   imports: [
     CommonModule,

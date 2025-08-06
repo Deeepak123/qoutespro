@@ -1,0 +1,19 @@
+<div style="margin-top:10vh;">
+    <textarea [(ngModel)]="htmlInput" rows="10" cols="80"></textarea>
+    <br />
+    <button (click)="extractNumbers()">Extract Numbers</button>
+
+    <h3>Next Bet: {{betNumber}}</h3>
+
+    <textarea [(ngModel)]="extractedText" (ngModelChange)="onExtractedTextChange()" rows="10" cols="80">
+</textarea>
+
+    <!-- <div>
+        Results:
+        <ul>
+            <li *ngFor="let item of output; let i = index">
+                {{ item }}
+            </li>
+        </ul>
+    </div> -->
+</div>
