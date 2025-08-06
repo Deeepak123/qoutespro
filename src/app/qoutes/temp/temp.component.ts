@@ -49,8 +49,14 @@ export class TempComponent implements OnInit {
 
     this.extractedText = this.extractedNumbers.join(',');
     console.log(this.extractedNumbers);
-    this.getRouletteDistancesLine();
-    this.howManyLeftRightStats();
+
+    console.log("--------------LINE WISE-------------");
+    this.linewise();
+
+    console.log("--------------ALTERNATE WISE-------------");
+    this.alternateWise();
+    // this.getRouletteDistancesLine();
+    // this.howManyLeftRightStats();
   }
 
   onExtractedTextChange() {
@@ -642,4 +648,199 @@ export class TempComponent implements OnInit {
     console.log("\n============= PROFIT STATS FOR RIGHT =============");
     calculateProfitStats(rightGaps, "RIGHT");
   }
+
+  getWheelNeighbors(num: number): { left: number, right: number } {
+    const index = this.wheel.indexOf(num);
+    if (index === -1) throw new Error(`Number ${num} not found on wheel`);
+    const left = this.wheel[(index - 1 + this.wheel.length) % this.wheel.length];
+    const right = this.wheel[(index + 1) % this.wheel.length];
+    return { left, right };
+  }
+
+  linewise() {
+    let failureCount = 0;
+    const failureGaps: number[] = [];
+    // Reverse iteration
+    for (let i = this.extractedNumbers.length - 1; i > 0; i--) {
+      const current = this.extractedNumbers[i];
+      const previous = this.extractedNumbers[i - 1];
+
+      try {
+        const { left, right } = this.getWheelNeighbors(current);
+        let result = "";
+
+        if (previous === left) {
+          result = `${previous}, ${current}`;
+          result += ` | SUCCESS | Neighbor: LEFT | Gap: ${failureCount}`;
+          failureGaps.push(failureCount);
+          failureCount = 0;
+        } else if (previous === right) {
+          result = `${previous}, ${current}`;
+          result += ` | SUCCESS | Neighbor: RIGHT | Gap: ${failureCount}`;
+          failureGaps.push(failureCount);
+          failureCount = 0;
+        } else {
+          //result += ` | FAIL`;
+          failureCount++;
+        }
+
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    console.log(failureGaps);
+    this.profitCalculate();
+  }
+
+  profitCalculate() {
+    const failureGaps: number[] = [];
+    let failureCount = 0;
+    let totalProfit = 0;
+    let lastSuccessDirection: 'LEFT' | 'RIGHT' | null = null;
+
+    // Reverse iteration
+    for (let i = this.extractedNumbers.length - 1; i > 0; i--) {
+      const current = this.extractedNumbers[i];
+      const previous = this.extractedNumbers[i - 1];
+
+      try {
+        const { left, right } = this.getWheelNeighbors(current);
+        let result = '';
+        let currentDirection: 'LEFT' | 'RIGHT' | null = null;
+
+        if (previous === left) {
+          currentDirection = 'LEFT';
+        } else if (previous === right) {
+          currentDirection = 'RIGHT';
+        }
+
+        if (currentDirection) {
+          const { profit, outcome } = this.calculateDirectionalProfit(
+            failureCount,
+            currentDirection,
+            lastSuccessDirection
+          );
+
+          result = `${previous}, ${current} | ${outcome} | Direction: ${currentDirection} | Gap: ${failureCount} | Profit: ${profit}`;
+          totalProfit += profit;
+          lastSuccessDirection = currentDirection;
+          failureCount = 0;
+
+          console.log(result);
+        } else {
+          failureCount++;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    console.log('Total Profit:', totalProfit);
+  }
+
+  calculateDirectionalProfit(
+    gap: number,
+    currentDirection: 'LEFT' | 'RIGHT',
+    lastDirection: 'LEFT' | 'RIGHT' | null
+  ): { profit: number; outcome: string } {
+    if (lastDirection === null || currentDirection === lastDirection) {
+      const profit = 36 - gap;
+      return { profit, outcome: 'WIN' };
+    } else {
+      const loss = -gap;
+      return { profit: loss, outcome: 'LOSS (Wrong Direction)' };
+    }
+  }
+
+
+  alternateWise() {
+    let failureCount = 0;
+    const failureGaps: number[] = [];
+
+    // Reverse iterate and compare i with i - 2 (skipping i - 1)
+    for (let i = this.extractedNumbers.length - 1; i >= 2; i--) {
+      const current = this.extractedNumbers[i];
+      const previous = this.extractedNumbers[i - 2];
+
+      try {
+        const { left, right } = this.getWheelNeighbors(current);
+        let result = `${previous}, ${current}`;
+
+        if (previous === left) {
+          result += ` | SUCCESS | Neighbor: LEFT | Gap: ${failureCount}`;
+          failureGaps.push(failureCount);
+          failureCount = 0;
+        } else if (previous === right) {
+          result += ` | SUCCESS | Neighbor: RIGHT | Gap: ${failureCount}`;
+          failureGaps.push(failureCount);
+          failureCount = 0;
+        } else {
+          failureCount++;
+          continue; // skip logging for failure cases
+        }
+
+        console.log(result);
+      } catch (error) {
+        console.error('Error fetching neighbors:', error);
+      }
+    }
+
+    console.log('Failure Gaps:', failureGaps);
+    this.profitCalculateAlter();
+  }
+
+
+  profitCalculateAlter() {
+    const failureGaps: number[] = [];
+    let failureCount = 0;
+    let totalProfit = 0;
+    let lastSuccessDirection: 'LEFT' | 'RIGHT' | null = null;
+
+    // Reverse iteration
+    for (let i = this.extractedNumbers.length - 1; i >= 2; i--) {
+      const current = this.extractedNumbers[i];
+      const previous = this.extractedNumbers[i - 2];
+
+
+      try {
+        const { left, right } = this.getWheelNeighbors(current);
+        let result = '';
+        let currentDirection: 'LEFT' | 'RIGHT' | null = null;
+
+        if (previous === left) {
+          currentDirection = 'LEFT';
+        } else if (previous === right) {
+          currentDirection = 'RIGHT';
+        }
+
+        if (currentDirection) {
+          const { profit, outcome } = this.calculateDirectionalProfit(
+            failureCount,
+            currentDirection,
+            lastSuccessDirection
+          );
+
+          result = `${previous}, ${current} | ${outcome} | Direction: ${currentDirection} | Gap: ${failureCount} | Profit: ${profit}`;
+          totalProfit += profit;
+          lastSuccessDirection = currentDirection;
+          failureCount = 0;
+
+          console.log(result);
+        } else {
+          failureCount++;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    console.log('Total Profit:', totalProfit);
+  }
+
+
+
 }
+
+
