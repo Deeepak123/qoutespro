@@ -484,12 +484,12 @@ export class TempComponent implements OnInit {
     console.log(`Total Loss: ${totalLoss}`);
     console.log(`Net Profit/Loss: ${net}`);
 
-    const maxRounds = 18;
+    const maxRounds = 36;
     const successWithin36 = failureCountsOnly.filter(gap => gap <= maxRounds);
     const failOver36 = failureCountsOnly.filter(gap => gap > maxRounds);
 
-    console.log("✅ Success within 18:", successWithin36.length); // 14
-    console.log("❌ Fail over 18:", failOver36.length); // 5
+    console.log("✅ Success within 36:", successWithin36.length); // 14
+    console.log("❌ Fail over 36:", failOver36.length); // 5
     console.log("📊 Success Rate:", ((successWithin36.length / failureCountsOnly.length) * 100).toFixed(2) + "%");
   }
 
