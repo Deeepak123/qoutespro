@@ -473,7 +473,7 @@ export class TempComponent implements OnInit {
         // Partial loss but succeeded
         const profit = 36 - count;
         totalProfit += profit;
-        totalLoss += count;
+        //totalLoss += count;
         // console.log(`Failure #${index + 1}: Success at ${count}, Profit: ${profit}, Loss: ${count}`);
       }
     });
