@@ -50,11 +50,21 @@ export class TempComponent implements OnInit {
     this.extractedText = this.extractedNumbers.join(',');
     console.log(this.extractedNumbers);
 
+    console.log("--------------GOLD-------------");
+    this.goldLinewiseN1N2Idea();
+    this.goldLinewiseN1Idea();
+    // this.goldAlternateTrickSameLeft();
+    //this.goldAlternateTrickSameRight();
+
+
+
     console.log("--------------LINE WISE-------------");
     this.linewise();
 
     console.log("--------------ALTERNATE WISE-------------");
     this.alternateWise();
+
+    this.goldAlternateTrick();
     // this.getRouletteDistancesLine();
     // this.howManyLeftRightStats();
   }
@@ -71,6 +81,22 @@ export class TempComponent implements OnInit {
     } else {
       console.error("Invalid number input");
     }
+
+    console.log("--------------GOLD-------------");
+    this.goldLinewiseN1N2Idea();
+    this.goldLinewiseN1Idea();
+    // this.goldAlternateTrickSameLeft();
+    //this.goldAlternateTrickSameRight();
+
+
+
+    console.log("--------------LINE WISE-------------");
+    this.linewise();
+
+    console.log("--------------ALTERNATE WISE-------------");
+    this.alternateWise();
+
+    this.goldAlternateTrick();
 
     //next bet
     // this.betNumber = this.nextBetLogic(0);
@@ -838,6 +864,276 @@ export class TempComponent implements OnInit {
 
     console.log('Total Profit:', totalProfit);
   }
+
+  public goldLinewiseN1N2Idea() {
+    let failureGap = 0;
+    const failureGaps: number[] = [];
+    for (let i = this.extractedNumbers.length - 1; i >= 2; i--) {
+      const i0 = this.extractedNumbers[i];
+      const iMinus1 = this.extractedNumbers[i - 1];
+      const iMinus2 = this.extractedNumbers[i - 2];
+
+      const neighbor1 = this.getNeighbors(i0, 2); // skip 1
+      const neighbor2 = this.getNeighbors(i0, 3); // skip 2
+
+      if (neighbor1.includes(iMinus1) || neighbor2.includes(iMinus1)) {
+        const direction = this.getDirectionByPosition(i0, iMinus1);
+
+        const iMinus1Immediate = this.getNeighbors(iMinus1, 1);
+        const isValid =
+          direction === 'LEFT' ? iMinus2 === iMinus1Immediate[0] :
+            direction === 'RIGHT' ? iMinus2 === iMinus1Immediate[1] : false;
+
+        // console.log(`\nAnalyzing i0=${i0}, i-1=${iMinus1}, i-2=${iMinus2}`);
+        // console.log(`Neighbor1 (skip 1) of ${i0}: ${neighbor1}`);
+        // console.log(`Neighbor2 (skip 2) of ${i0}: ${neighbor2}`);
+        // console.log(`[Direction: ${direction}]`);
+        // console.log(`Result: ${isValid ? '✅ Match' : '❌ No Match'}`);
+
+        if (isValid) {
+          failureGaps.push(failureGap); // store the gap count
+          failureGap = 0; // reset counter
+        } else {
+          failureGap++;
+        }
+      }
+    }
+    console.log('\n🔁 N1+N2', failureGaps);
+  }
+
+  public goldLinewiseN1Idea() {
+    let failureGap = 0;
+    const failureGaps: number[] = [];
+    for (let i = this.extractedNumbers.length - 1; i >= 2; i--) {
+      const i0 = this.extractedNumbers[i];
+      const iMinus1 = this.extractedNumbers[i - 1];
+      const iMinus2 = this.extractedNumbers[i - 2];
+
+      const neighbor1 = this.getNeighbors(i0, 2); // skip 1
+      //const neighbor2 = this.getNeighbors(i0, 3); // skip 2
+
+      if (neighbor1.includes(iMinus1)) {
+        const direction = this.getDirectionByPosition(i0, iMinus1);
+
+        const iMinus1Immediate = this.getNeighbors(iMinus1, 1);
+        const isValid =
+          direction === 'LEFT' ? iMinus2 === iMinus1Immediate[0] :
+            direction === 'RIGHT' ? iMinus2 === iMinus1Immediate[1] : false;
+
+        // console.log(`\nAnalyzing i0=${i0}, i-1=${iMinus1}, i-2=${iMinus2}`);
+        // console.log(`Neighbor1 (skip 1) of ${i0}: ${neighbor1}`);
+        // //console.log(`Neighbor2 (skip 2) of ${i0}: ${neighbor2}`);
+        // console.log(`[Direction: ${direction}]`);
+        // console.log(`Result: ${isValid ? '✅ Match' : '❌ No Match'}`);
+
+        if (isValid) {
+          failureGaps.push(failureGap); // store the gap count
+          failureGap = 0; // reset counter
+        } else {
+          failureGap++;
+        }
+      }
+    }
+    console.log('\n🔁 N1', failureGaps);
+  }
+
+  // Get left and right neighbors up to given distance
+  private getNeighbors(num: number, distance: number): number[] {
+    const index = this.wheel.indexOf(num);
+    if (index === -1) return [];
+
+    const total = this.wheel.length;
+    const left = this.wheel[(index - distance + total) % total];
+    const right = this.wheel[(index + distance) % total];
+    return [left, right];
+  }
+
+  getDirectionByPosition(from: number, neighbor: number): 'LEFT' | 'RIGHT' | 'UNKNOWN' {
+    const fromIndex = this.wheel.indexOf(from);
+    const neighborIndex = this.wheel.indexOf(neighbor);
+    if (fromIndex === -1 || neighborIndex === -1) return 'UNKNOWN';
+
+    const total = this.wheel.length;
+    const distanceRight = (neighborIndex - fromIndex + total) % total;
+    const distanceLeft = (fromIndex - neighborIndex + total) % total;
+
+    // Allow max 18 steps either direction (half the wheel)
+    if (distanceLeft <= 18 && distanceLeft < distanceRight) return 'LEFT';
+    if (distanceRight <= 18 && distanceRight < distanceLeft) return 'RIGHT';
+
+    // Handle rare equal case (e.g. wraparound)
+    if (distanceLeft === distanceRight && distanceLeft !== 0) {
+      return 'LEFT'; // or 'RIGHT' - pick one default
+    }
+
+    return 'UNKNOWN';
+  }
+
+  getNeighborsGold(num: number): { left: number; right: number } {
+    const index = this.wheel.indexOf(num);
+    if (index === -1) throw new Error(`Number ${num} not found on wheel`);
+    const left = this.wheel[(index - 1 + this.wheel.length) % this.wheel.length];
+    const right = this.wheel[(index + 1) % this.wheel.length];
+    return { left, right };
+  }
+
+  getDirectionGold(from: number, to: number): 'LEFT' | 'RIGHT' | 'SAME' | 'NONE' {
+    const neighbors = this.getNeighborsGold(from);
+    if (to === from) return 'SAME';
+    if (to === neighbors.left) return 'LEFT';
+    if (to === neighbors.right) return 'RIGHT';
+    return 'NONE';
+  }
+
+  goldAlternateTrick() {
+    console.log('=== Gold Alternate Trick Analysis ===');
+    let failureGap = 0;
+    const failureGaps: number[] = [];
+
+    for (let i = this.extractedNumbers.length - 1; i >= 3; i--) {
+      const i0 = this.extractedNumbers[i];
+      const i1 = this.extractedNumbers[i - 1];
+      const i2 = this.extractedNumbers[i - 2];
+      const i3 = this.extractedNumbers[i - 3];
+
+      const dir1 = this.getDirectionGold(i0, i2);
+
+      if (dir1 !== 'NONE') {
+        console.log(`\n🔍 Analyzing sequence: i-3=${i3}, i-2=${i2}, i-1=${i1}, i0=${i0}`);
+        console.log(`✅ Step 1: alt=${i2}, before=${i0}, ${dir1}`);
+
+        const dir2 = this.getDirectionGold(i2, i3);
+
+        // ✅ ADDITION: check that i2 and i3 are not same
+        if (dir2 !== 'NONE' && dir2 !== 'SAME' && i2 !== i3) {
+          console.log(`✅ Step 2: near=${i3} before=${i2}, ${dir2}`);
+          console.log(`✅ PASSED:`);
+          failureGaps.push(failureGap); // store the gap count
+          failureGap = 0; // reset counter
+        } else {
+          failureGap++;
+          console.log(`❌ Step 2: Failed - ${i2 === i3 ? 'i2 and i3 are SAME' : `not near =${i3} before=${i2}`}`);
+        }
+      }
+    }
+
+    console.log('\n LL -> RR -> L/R -> SAME LEFT/RIGHT:', failureGaps);
+  }
+
+
+  goldAlternateTrickSameLeft() {
+    let failureGap = 0;
+    const failureGaps: number[] = [];
+
+    for (let i = this.extractedNumbers.length - 1; i >= 3; i--) {
+      const i0 = this.extractedNumbers[i];
+      const i1 = this.extractedNumbers[i - 1];
+      const i2 = this.extractedNumbers[i - 2];
+      const i3 = this.extractedNumbers[i - 3];
+
+      if (i0 === i2) {
+        console.log(`\n🔍 Analyzing sequence: i-3=${i3}, i-2=${i2}, i-1=${i1}, i0=${i0}`);
+        console.log(`✅ Step 1: same=${i2}, before=${i0}`);
+
+        const dir = this.getDirectionGold(i2, i3);
+
+        // ✅ ADDITION: check that i2 and i3 are not same
+        if (dir === 'LEFT') {
+          console.log(`✅ Step 2: near=${i3} before=${i2}, ${dir}`);
+          console.log(`✅ PASSED:`);
+          failureGaps.push(failureGap); // store the gap count
+          failureGap = 0; // reset counter
+        } else {
+          failureGap++;
+          console.log(`❌ Step 2: i2=${i2} → i3=${i3} is not LEFT (${dir})`);
+        }
+      }
+    }
+
+    console.log('\n SAME LEFT:', failureGaps);
+  }
+
+  goldAlternateTrickSameRight() {
+    let failureGap = 0;
+    const failureGaps: number[] = [];
+
+    for (let i = this.extractedNumbers.length - 1; i >= 3; i--) {
+      const i0 = this.extractedNumbers[i];
+      const i1 = this.extractedNumbers[i - 1];
+      const i2 = this.extractedNumbers[i - 2];
+      const i3 = this.extractedNumbers[i - 3];
+
+      if (i0 === i2) {
+        console.log(`\n🔍 Analyzing sequence: i-3=${i3}, i-2=${i2}, i-1=${i1}, i0=${i0}`);
+        console.log(`✅ Step 1: same=${i2}, before=${i0}`);
+
+        const dir = this.getDirectionGold(i2, i3);
+
+        // ✅ ADDITION: check that i2 and i3 are not same
+        if (dir === 'RIGHT') {
+          console.log(`✅ Step 2: near=${i3} before=${i2}, ${dir}`);
+          console.log(`✅ PASSED:`);
+          failureGaps.push(failureGap); // store the gap count
+          failureGap = 0; // reset counter
+        } else {
+          failureGap++;
+          console.log(`❌ Step 2: i2=${i2} → i3=${i3} is not RIGHT (${dir})`);
+        }
+      }
+    }
+
+    console.log('\n SAME RIGHT:', failureGaps);
+  }
+
+  linewiseLEFTRIGHTCHECK() {
+    let failureCount = 0;
+    const failureGaps: number[] = [];
+
+    for (let i = this.extractedNumbers.length - 1; i > 1; i--) {
+      const start = this.extractedNumbers[i];
+      const current = this.extractedNumbers[i - 1];
+      const previous = this.extractedNumbers[i - 2];
+
+      try {
+        const currentNeighbors = this.getWheelNeighbors(current);
+        const left = currentNeighbors.left;
+        const right = currentNeighbors.right;
+
+        const startToCurrent = this.getDistance(start, current); // returns {direction, distance}
+        let expectedNeighbor: number;
+        let result = "";
+
+        if (startToCurrent.direction === 'LEFT') {
+          expectedNeighbor = left;
+          if (previous === left) {
+            result = `${previous}, ${current}, ${start} | SUCCESS | Neighbor: LEFT | Gap: ${failureCount}`;
+            failureGaps.push(failureCount);
+            failureCount = 0;
+          } else {
+            failureCount++;
+          }
+        } else if (startToCurrent.direction === 'RIGHT') {
+          expectedNeighbor = right;
+          if (previous === right) {
+            result = `${previous}, ${current}, ${start} | SUCCESS | Neighbor: RIGHT | Gap: ${failureCount}`;
+            failureGaps.push(failureCount);
+            failureCount = 0;
+          } else {
+            failureCount++;
+          }
+        }
+
+        if (result) console.log(result);
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    console.log('Failure Gaps:', failureGaps);
+    // this.profitCalculate();
+  }
+
 
 
 
