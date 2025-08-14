@@ -8,7 +8,6 @@ import { TopicQoutesComponent } from './topic-qoutes/topic-qoutes.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { HomeComponent } from './home/home.component';
 import { StatsComponent } from './stats/stats.component';
-import { TempComponent } from './temp/temp.component';
 
 const routes: Routes = [
   {
@@ -21,7 +20,6 @@ const routes: Routes = [
       { path: 'topic/:topicId/:topicName', component: TopicQoutesComponent },
       { path: 'search-results', component: SearchResultsComponent },
       { path: 'sQ', component: StatsComponent },
-      { path: 'temp', component: TempComponent },
     ],
   },
 ];
