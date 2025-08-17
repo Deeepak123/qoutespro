@@ -26,3 +26,14 @@
 ::ng-deep .mat-card-header-text {
     margin: 0px;
 }
+
+.authorCard {
+    margin-top: 25px;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.authorCard:hover {
+    box-shadow: 12px 14px 25px rgba(0, 0, 0, 0.4);
+    transform: scale(1.02);
+}

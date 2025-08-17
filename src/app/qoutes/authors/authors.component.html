@@ -7,7 +7,7 @@
                     <div fxLayout="row">
                         <div fxFlex>
                             <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}"
-                                fxLayoutAlign="center center">Authors</div>
+                                fxLayoutAlign="center center" style="cursor: default;">Authors</div>
                         </div>
                     </div>
 
@@ -23,10 +23,9 @@
                     <!-- CONTENT -->
                     <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="20px">
                         <div fxFlex.lt-sm="90%" fxFlex.sm="45%" fxFlex.md="30%" fxFlex.gt-md="20%"
-                            *ngFor="let item of authorsList | searchFilter:searchText;let index=index"
-                            onmouseover="this.style.boxShadow='12px 14px 25px rgba(0, 0, 0, 0.4)';"
-                            onmouseout="this.style.boxShadow='none';">
-                            <mat-card (click)="selectedAuthor(item)" style="margin-top: 25px;cursor: pointer;">
+                            *ngFor="let item of authorsList | searchFilter:searchText;let index=index">
+                            <mat-card class="authorCard" (click)="selectedAuthor(item)"
+                                style="margin-top: 25px;cursor: pointer;">
                                 <!-- <mat-card-header style="justify-content: center;margin: 0px;">
                                     <div mat-card-avatar class="imageIcon"></div>
                                 </mat-card-header> -->

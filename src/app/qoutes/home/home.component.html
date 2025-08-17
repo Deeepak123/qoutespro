@@ -1,16 +1,18 @@
-<app-top100></app-top100>
+<app-top100 (allLoaded)="showOthers = $event"></app-top100>
 
-<app-topics [fromHome]="true"></app-topics>
+<ng-container *ngIf="showOthers">
+    <app-topics [fromHome]="true"></app-topics>
 
-<div fxLayout="row" style="margin-top: 0px;">
-    <div fxFlex>
-        <mat-divider></mat-divider>
+    <div fxLayout="row" style="margin-top: 0px;">
+        <div fxFlex>
+            <mat-divider></mat-divider>
+        </div>
     </div>
-</div>
 
-<app-authors [fromHome]="true"></app-authors>
+    <app-authors [fromHome]="true"></app-authors>
 
-<div style="height: 50px;"></div>
+    <div style="height: 50px;"></div>
 
-<!-- FOOTER -->
-<app-footer></app-footer>
+    <!-- FOOTER -->
+    <app-footer></app-footer>
+</ng-container>

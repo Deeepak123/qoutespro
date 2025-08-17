@@ -19,7 +19,7 @@ export class ParentLayerComponent implements OnInit {
   private subscription: Subscription = new Subscription();
 
   constructor(
-    private router: Router,
+    public router: Router,
     private apiSer: ApiService,
   ) {
     router.events.subscribe(res => {
@@ -48,15 +48,19 @@ export class ParentLayerComponent implements OnInit {
 
   searchGlobal = () => {
     this.searchedQoutesList = [];
-    const searchedQoutesRes$ = this.apiSer.searchGlobalInQoutes(this.searchedKeyword).subscribe((val: any) => {
+    const searchedQoutesRes$ = this.apiSer.searchGlobalInQoutes(this.searchedKeyword, 0).subscribe((val: any) => {
       if (val) {
+        this.modifyData(val);
         this.searchedQoutesList = val;
-        sessionStorage.setItem("searchedList", JSON.stringify(this.searchedQoutesList));
+        sessionStorage.setItem('searchedList', JSON.stringify(val));     // first 20
+        sessionStorage.setItem('searchedKeyword', this.searchedKeyword); // keyword
+        //sessionStorage.setItem("searchedList", JSON.stringify(this.searchedQoutesList));
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['/search-results']));
       } else {
         this.searchedQoutesList = [];
         sessionStorage.removeItem("searchedList");
+        sessionStorage.removeItem("searchedKeyword");
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['/search-results']));
       }
@@ -64,6 +68,14 @@ export class ParentLayerComponent implements OnInit {
       console.log("ERROR:" + error);
     })
     this.subscription.add(searchedQoutesRes$);
+  }
+
+  modifyData(datalist: any[]): void {
+    datalist.forEach((item: any) => {
+      const tempArr = item.qoutes.split('—');
+      item.qoutes = tempArr[0];
+      item.authorName = tempArr[1];
+    });
   }
 
   ngOnDestroy(): void {

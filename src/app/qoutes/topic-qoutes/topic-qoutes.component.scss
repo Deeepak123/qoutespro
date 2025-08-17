@@ -2,6 +2,12 @@
     width: 450px;
 }
 
+.authorName:hover {
+    // text-decoration: underline;
+    color: #000;
+    font-weight: 600;
+}
+
 .textHeader {
     font-family: 'Q ExBold';
     color: #5a5a5a !important;
@@ -11,6 +17,16 @@
     text-align: center;
     word-wrap: break-word;
     max-width: 450px;
+}
+
+.textHeader2 {
+    font-family: 'Q ExBold';
+    color: #5a5a5a !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
 }
 
 .textFont {
@@ -37,4 +53,16 @@
     margin-top: 0px;
     float: right;
     cursor: pointer !important;
+    transition: all 0.2s;
+}
+
+.topicCard {
+    margin-top: 25px;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.topicCard:hover {
+    box-shadow: 12px 14px 25px rgba(0, 0, 0, 0.4);
+    transform: scale(1.02);
 }

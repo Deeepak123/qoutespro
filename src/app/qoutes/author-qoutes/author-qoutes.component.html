@@ -14,7 +14,8 @@
                     <!-- style="margin-top:8px;" -->
                     <div fxLayout="row">
                         <div fxFlex style="display: flex;justify-content: center;">
-                            <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}">{{authorName}}
+                            <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}" style="cursor: default;">
+                                {{authorName}}
                                 <i>~Quotes</i>
                             </div>
                         </div>
@@ -50,20 +51,22 @@
         </div>
     </div>
 
-    <!-- AUTHORS -->
-    <app-authors [fromHome]="true"></app-authors>
+    <ng-container *ngIf="allLoaded">
+        <!-- AUTHORS -->
+        <app-authors [fromHome]="true"></app-authors>
 
-    <div fxLayout="row" style="margin-top: 50px;">
-        <div fxFlex>
-            <mat-divider></mat-divider>
+        <div fxLayout="row" style="margin-top: 50px;">
+            <div fxFlex>
+                <mat-divider></mat-divider>
+            </div>
         </div>
-    </div>
 
-    <!-- TOPICS -->
-    <app-topics [fromHome]="true"></app-topics>
+        <!-- TOPICS -->
+        <app-topics [fromHome]="true"></app-topics>
 
-    <div style="height: 100px;"></div>
+        <div style="height: 100px;"></div>
 
-    <!-- FOOTER -->
-    <app-footer></app-footer>
+        <!-- FOOTER -->
+        <app-footer></app-footer>
+    </ng-container>
 </div>

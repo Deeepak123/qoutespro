@@ -26,12 +26,12 @@
                                     <div class="col-sm-9 col-6 primary-txt-color no-padding"
                                         style="white-space:pre-line;">
                                         <div fxHide.lt-sm="true">
-                                            <button [ngClass]="{'selectedMenuStyle': selectedMenu == 'home'}"
+                                            <button [ngClass]="{ 'active': router.url === '/home' }"
                                                 (click)="routTo('/home')" mat-button class="textFont home">Home</button>
-                                            <button [ngClass]="{'selectedMenuStyle': selectedMenu == 'authors'}"
+                                            <button [ngClass]="{ 'active': router.url === '/authors' }"
                                                 (click)="routTo('/authors')" mat-button
                                                 class="textFont authors">Authors</button>
-                                            <button [ngClass]="{'selectedMenuStyle': selectedMenu == 'topics'}"
+                                            <button [ngClass]="{ 'active': router.url === '/topics' }"
                                                 (click)="routTo('/topics')" mat-button
                                                 class="textFont topics">Topics</button>
 
@@ -41,7 +41,7 @@
                                                 <input [(ngModel)]="searchedKeyword" placeholder="Search..."
                                                     name="globalSearch" autocomplete="off" maxlength="30"
                                                     style="border-radius: 9px;border:1px solid #c5c5c5; background: white;"
-                                                    type="text" class="form-control">
+                                                    type="text" class="form-control" (keydown.enter)="searchGlobal()">
                                                 <img *ngIf="searchedKeyword.length > 2" (click)="searchGlobal()"
                                                     src="../../../assets/images/searchIcon.svg" class="searchIcon">
                                             </div>

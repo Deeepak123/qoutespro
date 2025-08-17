@@ -24,7 +24,6 @@ export class AuthorsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAuthors();
-    debugger;
 
     if (!this.fromHome) {
       this.commonSer.updateStatsCount();

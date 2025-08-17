@@ -7,11 +7,15 @@
                 <div fxFlex>
                     <div fxLayout="row">
                         <div fxFlex style="display: flex;justify-content: center;">
-                            <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}">{{topicName}}
+                            <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}" style="cursor: default;">
+                                {{topicName}}
                                 <i>~Quotes</i>
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- {{ introText }} -->
 
 
                     <!-- CONTENT -->
@@ -48,20 +52,39 @@
         </div>
     </div>
 
-    <!-- TOPICS -->
-    <app-topics [fromHome]="true"></app-topics>
-
-    <div fxLayout="row" style="margin-top: 0px;">
-        <div fxFlex>
-            <mat-divider></mat-divider>
+    <!-- Related Topics -->
+    <!-- SEE ALSO (use same card design as topics) -->
+    <div class="textHeader2" style="margin-top:40px;text-align:center;">Related Quote Topics</div>
+    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="20px"
+        *ngIf="getRelatedTopics(topicName).length > 0">
+        <div fxFlex.lt-sm="95%" fxFlex.sm="45%" fxFlex.md="30%" fxFlex.gt-md="20%"
+            *ngFor="let rel of getRelatedTopics(topicName); let index=index">
+            <mat-card class="topicCard" (click)="router.navigate(['/topic/' + rel.id + '/' + rel.name])"
+                style="margin-top: 25px; cursor: pointer;">
+                <mat-card-content class="textFont">
+                    {{ rel.name }} Quotes
+                </mat-card-content>
+            </mat-card>
         </div>
     </div>
 
-    <!-- AUTHORS -->
-    <app-authors [fromHome]="true"></app-authors>
 
-    <div style="height: 100px;"></div>
+    <ng-container *ngIf="allLoaded">
+        <!-- TOPICS -->
+        <app-topics [fromHome]="true"></app-topics>
 
-    <!-- FOOTER -->
-    <app-footer></app-footer>
+        <div fxLayout="row" style="margin-top: 0px;">
+            <div fxFlex>
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+
+        <!-- AUTHORS -->
+        <app-authors [fromHome]="true"></app-authors>
+
+        <div style="height: 100px;"></div>
+
+        <!-- FOOTER -->
+        <app-footer></app-footer>
+    </ng-container>
 </div>

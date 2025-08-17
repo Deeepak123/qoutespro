@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/utility/api.service';
@@ -11,7 +11,12 @@ import { CommonService } from 'src/app/utility/common.service';
 })
 export class Top100Component implements OnInit {
 
+  @Output() allLoaded = new EventEmitter<boolean>();
+
   top100List: any = [];
+  page = 0;
+  hasMore = true;
+
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -25,17 +30,48 @@ export class Top100Component implements OnInit {
     this.commonSer.updateStatsCount();
   }
 
-  getTop100 = () => {
-    this.top100List = [];
-    const top100Res$ = this.apiSer.getTopHundredQoutes().subscribe((res: any) => {
-      if (res) {
-        this.modifyData(res);
-      }
-    }, (error: any) => {
-      console.log("ERROR:" + error);
-    })
-    this.subscription.add(top100Res$);
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    if (!this.hasMore) {
+      return;   // 🛑 stop further loading
+    }
+
+    const pos = window.pageYOffset + window.innerHeight;
+    const max = document.documentElement.scrollHeight;
+
+    if (pos >= max - 150) {
+      this.page += 1;
+      this.getTop100();
+    }
   }
+
+  getTop100 = () => {
+    const top100Res$ = this.apiSer.getTopHundredQoutes(this.page).subscribe(
+      (res: any) => {
+        // res can be undefined, null, or an empty array, so handle all cleanly
+        if (res && res.length > 0) {
+          this.modifyData(res);
+          this.top100List = this.top100List.concat(res);
+
+          // if less than 20 items were returned, it means last page
+          if (res.length < 20) {
+            this.hasMore = false;
+            this.allLoaded.emit(true);
+          }
+        } else {
+          // no items returned => last page reached
+          this.hasMore = false;
+          this.allLoaded.emit(true);
+        }
+      },
+      (error: any) => {
+        console.log('ERROR:' + error);
+      }
+    );
+
+    this.subscription.add(top100Res$);
+  };
+
 
   modifyData = (datalist: any) => {
     datalist.forEach((item: any) => {
@@ -43,9 +79,8 @@ export class Top100Component implements OnInit {
       item.qoutes = tempArr[0];
       item.authorName = tempArr[1];
     });
-
-    this.top100List = datalist;
   }
+
 
   selectedAuthor = (item: any) => {
     this.router.navigate(['author/' + item.authorId + "/" + item.authorName]);

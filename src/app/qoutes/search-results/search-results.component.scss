@@ -37,4 +37,11 @@
     margin-top: 0px;
     float: right;
     cursor: pointer !important;
+    transition: all 0.2s;
+}
+
+.authorName:hover {
+    // text-decoration: underline;
+    color: #000;
+    font-weight: 600;
 }
