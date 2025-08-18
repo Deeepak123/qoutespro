@@ -18,7 +18,6 @@ export class Top100Component implements OnInit {
   top100List: any = [];
   page = 0;
   hasMore = true;
-
   introText: string = `The Top 100 Quotes collection offers the most inspiring, motivational, life and love quotes from famous authors around the world. These hand-picked quotes are meant to uplift, inspire and encourage. Popular variations include top inspirational quotes, top motivational quotes, best famous quotes, most popular quotes and top quotes of all time.`;
 
   private subscription: Subscription = new Subscription();
@@ -36,7 +35,6 @@ export class Top100Component implements OnInit {
   ngOnInit(): void {
 
     //SEO
-
     // Title + Meta
     this.titleService.setTitle('Top 100 Quotes – IAdoreQuotes');
     this.metaService.updateTag({
@@ -74,7 +72,7 @@ export class Top100Component implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     if (!this.hasMore) {
-      return;   // 🛑 stop further loading
+      return;
     }
 
     const pos = window.pageYOffset + window.innerHeight;

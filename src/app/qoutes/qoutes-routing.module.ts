@@ -20,7 +20,6 @@ const routes: Routes = [
       { path: 'topic/:topicId/:topicName', component: TopicQoutesComponent },
       { path: 'search-results', component: SearchResultsComponent },
       { path: 'sQ', component: StatsComponent },
-
     ],
   },
 ];

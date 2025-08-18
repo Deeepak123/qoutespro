@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { QoutesRoutingModule } from './qoutes-routing.module';
 import { ParentLayerComponent } from './parent-layer/parent-layer.component';
-// import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '../material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MenuListComponent } from './menu-list/menu-list.component';

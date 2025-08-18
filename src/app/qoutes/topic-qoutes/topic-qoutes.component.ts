@@ -48,7 +48,6 @@ export class TopicQoutesComponent implements OnInit {
         this.qoutesList = [];
 
         //SEO
-
         // 1. <title> tag
         this.titleService.setTitle(`${this.topicName} Quotes – IAdoreQuotes`);
 
@@ -88,18 +87,8 @@ export class TopicQoutesComponent implements OnInit {
         schemaScript.text = JSON.stringify(schemaData);
         this.renderer.appendChild(this.document.head, schemaScript);
 
-
-
-
-        // const topicQoutes$ = this.apiSer.getQoutesByTopicID(topicId).subscribe((res: any) => {
-        //   if (res) {
-        //     this.modifyData(res);
-        //   }
-        // });
-        // this.subscription.add(topicQoutes$);
         this.getTopicQuotes(topicId);
         this.commonSer.updateStatsCount();
-
       }
     })
   }
@@ -414,9 +403,6 @@ export class TopicQoutesComponent implements OnInit {
         return [];
     }
   }
-
-
-
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

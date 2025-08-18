@@ -81,18 +81,6 @@ export class AuthorQoutesComponent implements OnInit {
         script.text = JSON.stringify(schemaData);
         this.renderer.appendChild(this.document.head, script);
 
-
-
-
-
-
-        // const authorQoutes$ = this.apiSer.getQoutesByAuthorID(authorId).subscribe((res: any) => {
-        //   if (res) {
-        //     this.modifyData(res);
-        //   }
-        // });
-
-        //this.subscription.add(authorQoutes$);
         this.getAuthorQuotes(authorId);
         this.commonSer.updateStatsCount();
       }
@@ -770,8 +758,6 @@ export class AuthorQoutesComponent implements OnInit {
         ];
     }
   }
-
-
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

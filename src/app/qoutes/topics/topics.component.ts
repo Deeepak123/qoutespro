@@ -14,7 +14,6 @@ import { DOCUMENT } from '@angular/common';
 export class TopicsComponent implements OnInit {
 
   introText: string = `This page lists all quote topics and categories, including quote categories list, all inspirational quote topics, list of quote topics, browse quote themes and explore quote subjects.`;
-
   topicsList: any = [];
   private subscription: Subscription = new Subscription();
   @Input() fromHome: boolean = false;
@@ -34,7 +33,6 @@ export class TopicsComponent implements OnInit {
 
     if (!this.fromHome) {
       this.commonSer.updateStatsCount();
-
 
       //SEO
       // Title & Meta

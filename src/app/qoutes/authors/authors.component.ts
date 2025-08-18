@@ -14,7 +14,6 @@ import { DOCUMENT } from '@angular/common';
 export class AuthorsComponent implements OnInit {
 
   introText: string = `This page provides a list of famous authors and thinkers, including list of famous authors, quotes by famous people, author quotes collection, browse author quote list and inspirational authors list.`;
-
   authorsList: any = [];
   searchText: string = "";
   private subscription: Subscription = new Subscription();
@@ -35,7 +34,6 @@ export class AuthorsComponent implements OnInit {
 
     if (!this.fromHome) {
       this.commonSer.updateStatsCount();
-
 
       //SEO
       // Title & Meta

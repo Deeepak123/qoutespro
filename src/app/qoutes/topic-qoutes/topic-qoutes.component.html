@@ -23,10 +23,6 @@
                         <div fxFlex style="display: flex;justify-content: center;">
                             <mat-card [ngStyle.xs]="{'width': '-webkit-fill-available'}" class="cardStyle"
                                 style="margin-top: 35px;">
-                                <!-- <mat-card-header style="justify-content: center;">
-                                    <div (click)="selectedAuthor(item)" mat-card-avatar class="imageIcon">
-                                    </div>
-                                </mat-card-header> -->
                                 <mat-card-content style="padding-top: 5px;">
                                     <img style="width: 40px;height: 25px;" src="../../../assets/images/doubleQuote.png">
                                     <p class="textFont" style="margin-top: 15px;">
@@ -52,24 +48,22 @@
         </div>
     </div>
 
-    <!-- Related Topics -->
-    <!-- SEE ALSO (use same card design as topics) -->
-    <div class="textHeader2" style="margin-top:40px;text-align:center;">Related Quote Topics</div>
-    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="20px"
-        *ngIf="getRelatedTopics(topicName).length > 0">
-        <div fxFlex.lt-sm="95%" fxFlex.sm="45%" fxFlex.md="30%" fxFlex.gt-md="20%"
-            *ngFor="let rel of getRelatedTopics(topicName); let index=index">
-            <mat-card class="topicCard" (click)="router.navigate(['/topic/' + rel.id + '/' + rel.name])"
-                style="margin-top: 25px; cursor: pointer;">
-                <mat-card-content class="textFont">
-                    {{ rel.name }} Quotes
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </div>
-
-
     <ng-container *ngIf="allLoaded">
+        <!-- Related Topics -->
+        <div class="textHeader2" style="margin-top:40px;text-align:center;">Related Quote Topics</div>
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="20px"
+            *ngIf="getRelatedTopics(topicName).length > 0">
+            <div fxFlex.lt-sm="95%" fxFlex.sm="45%" fxFlex.md="30%" fxFlex.gt-md="20%"
+                *ngFor="let rel of getRelatedTopics(topicName); let index=index">
+                <mat-card class="topicCard" (click)="router.navigate(['/topic/' + rel.id + '/' + rel.name])"
+                    style="margin-top: 25px; cursor: pointer;">
+                    <mat-card-content class="textFont">
+                        {{ rel.name }} Quotes
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+
         <!-- TOPICS -->
         <app-topics [fromHome]="true"></app-topics>
 

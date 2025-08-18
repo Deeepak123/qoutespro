@@ -26,45 +26,6 @@ mat-list {
     color: #FFFFFF;
 }
 
-// .logoBig {
-//     width: auto; //118px;
-//     height: 35px;
-//     // height: 90px;
-//     // /* adjust 50–80px as you like */
-//     // width: auto;
-//     object-fit: contain;
-//     // margin-top: -21px;
-// }
-
-// .logoSmall {
-//     width: auto; //110px;
-//     height: 32px;
-//     // height: 90px;
-//     // /* adjust 50–80px as you like */
-//     // width: auto;
-//     object-fit: contain;
-//     // margin-top: -25px;
-//     // margin-left: -10px;
-// }
-
-// .textFont {
-//     font-family: 'Q ExLight';
-//     color: #FFF;
-//     font-weight: 500;
-//     font-size: 1.10rem;
-//     text-align: center;
-// }
-
-// .textFont {
-//     font-family: 'Poppins', sans-serif;
-//     color: #FFF;
-//     font-weight: 300;
-//     font-size: 1.10rem;
-//     text-align: center;
-//     letter-spacing: 1.2px;
-//     transition: all 0.2s;
-// }
-
 .textFont {
     font-family: 'Q Light' !important;
     color: #FFF !important;
@@ -89,24 +50,6 @@ mat-list {
     font-weight: bolder;
     color: #FFF;
 }
-
-// .textFont.active,
-// .textFont:hover {
-//     font-weight: 300;
-//     color: #fff;
-// }
-
-// .home:hover {
-//     font-weight: bold;
-// }
-
-// .authors:hover {
-//     font-weight: bold;
-// }
-
-// .topics:hover {
-//     font-weight: bold;
-// }
 
 .selectedMenuStyle {
     font-weight: bold;

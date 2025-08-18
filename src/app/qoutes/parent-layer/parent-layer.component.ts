@@ -54,7 +54,6 @@ export class ParentLayerComponent implements OnInit {
         this.searchedQoutesList = val;
         sessionStorage.setItem('searchedList', JSON.stringify(val));     // first 20
         sessionStorage.setItem('searchedKeyword', this.searchedKeyword); // keyword
-        //sessionStorage.setItem("searchedList", JSON.stringify(this.searchedQoutesList));
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
           this.router.navigate(['/search-results']));
       } else {

@@ -11,14 +11,6 @@ const httpOptions = {
   })
 };
 
-const httpOptionsWithAuthToken = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Credentials': 'false',
-  })
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -30,51 +22,36 @@ export class ApiService {
   getTopHundredQoutes(page: number): Observable<JSON> {
     return this.http.get<JSON>(
       `${environment.SERVICE_URL}api/qoutes/getTopHundredQoutes?page=${page}`,
-      httpOptionsWithAuthToken
+      httpOptions
     );
   }
 
   getAuthors(): Observable<JSON> {
-    return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getAuthors', httpOptionsWithAuthToken);
+    return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getAuthors', httpOptions);
   }
 
   getTopics(): Observable<JSON> {
-    return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getTopics', httpOptionsWithAuthToken);
+    return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getTopics', httpOptions);
   }
-
-  // getQoutesByAuthorID(authorID: any): Observable<JSON> {
-  //   //let param = new HttpParams().set("authorID", authorID);
-  //   return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getQoutesByAuthorID?authorID=' + authorID, httpOptionsWithAuthToken);
-  // }
 
   getQoutesByAuthorID(authorID: any, page: number): Observable<JSON> {
     return this.http.get<JSON>(
       `${environment.SERVICE_URL}api/qoutes/getQoutesByAuthorID?authorID=${authorID}&page=${page}`,
-      httpOptionsWithAuthToken
+      httpOptions
     );
   }
-
-  // getQoutesByTopicID(topicID: any): Observable<JSON> {
-  //   let param = new HttpParams().set("topicID", topicID);
-  //   return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getQoutesByTopicID?topicID=' + topicID, httpOptionsWithAuthToken);
-  // }
 
   getQoutesByTopicID(topicID: any, page: number): Observable<JSON> {
     return this.http.get<JSON>(
       `${environment.SERVICE_URL}api/qoutes/getQoutesByTopicID?topicID=${topicID}&page=${page}`,
-      httpOptionsWithAuthToken
+      httpOptions
     );
   }
-
-  // searchGlobalInQoutes(searchedKeyword: string): Observable<JSON> {
-  //   let param = new HttpParams().set("searchedKeyword", searchedKeyword);
-  //   return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/searchGlobalInQoutes?searchedKeyword=' + searchedKeyword, httpOptionsWithAuthToken);
-  // }
 
   searchGlobalInQoutes(searchedKeyword: string, page: number): Observable<JSON> {
     return this.http.get<JSON>(
       `${environment.SERVICE_URL}api/qoutes/searchGlobalInQoutes?searchedKeyword=${searchedKeyword}&page=${page}`,
-      httpOptionsWithAuthToken
+      httpOptions
     );
   }
 
@@ -83,18 +60,14 @@ export class ApiService {
       "id": "000",
       "des": "resp"
     }
-    return this.http.post<JSON>(environment.SERVICE_URL + 'api/qoutes/saveStats', { obj }, httpOptionsWithAuthToken);
+    return this.http.post<JSON>(environment.SERVICE_URL + 'api/qoutes/saveStats', { obj }, httpOptions);
   }
 
   saveQoutes(jsonObj: any): Observable<JSON> {
-    return this.http.post<JSON>(environment.SERVICE_URL + 'api/qoutes/saveQoutes', jsonObj, httpOptionsWithAuthToken);
+    return this.http.post<JSON>(environment.SERVICE_URL + 'api/qoutes/saveQoutes', jsonObj, httpOptions);
   }
 
-  // saveStatsR(jsonObj: any[]): Observable<any> {
-  //   return this.http.post<any>(environment.SERVICE_URL + 'api/qoutes/saveStatsR', jsonObj, httpOptionsWithAuthToken);
-  // }
-
   getStats(): Observable<JSON> {
-    return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getStats', httpOptionsWithAuthToken);
+    return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getStats', httpOptions);
   }
 }
