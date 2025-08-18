@@ -8,6 +8,8 @@ import { TopicQoutesComponent } from './topic-qoutes/topic-qoutes.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { HomeComponent } from './home/home.component';
 import { StatsComponent } from './stats/stats.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   {
@@ -19,6 +21,8 @@ const routes: Routes = [
       { path: 'topics', component: TopicsComponent },
       { path: 'topic/:topicId/:topicName', component: TopicQoutesComponent },
       { path: 'search-results', component: SearchResultsComponent },
+      { path: 'privacy-policy', component: PrivacyComponent },
+      { path: 'contact-us', component: ContactComponent },
       { path: 'sQ', component: StatsComponent },
     ],
   },

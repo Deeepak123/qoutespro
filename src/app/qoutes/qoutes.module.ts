@@ -17,6 +17,8 @@ import { FooterComponent } from './footer/footer.component';
 import { Top100Component } from './top100/top100.component';
 import { HomeComponent } from './home/home.component';
 import { StatsComponent } from './stats/stats.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { ContactComponent } from './contact/contact.component';
 @NgModule({
   declarations: [
     ParentLayerComponent,
@@ -31,6 +33,8 @@ import { StatsComponent } from './stats/stats.component';
     HomeComponent,
     Top100Component,
     StatsComponent,
+    PrivacyComponent,
+    ContactComponent,
   ],
   imports: [
     CommonModule,

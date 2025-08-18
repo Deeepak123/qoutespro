@@ -1,12 +1,18 @@
 <div fxLayout="column">
     <div fxLayout="row" class="footer">
-        <div fxFlex fxLayoutAlign="center center">
-            <div fxLayout="row">
-                <div fxFlex class="textFont">
-                    © 2025 &nbsp;&nbsp;<span style="border-right: 1px solid #FFF"></span>&nbsp;&nbsp;
-                    contact&#64;iadorequotes.com
-                </div>
+        <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+            <div (click)="routTo('/contact-us')" class="textHeader3" fxLayoutAlign="center center">Contact Us
             </div>
+
+            <div (click)="routTo('/privacy-policy')" class="textHeader3" fxLayoutAlign="center center">Privacy Policy
+            </div>
+
+            <!-- Copyright -->
+            <div class="textFont" style="line-height:22px;margin-top: 5px;">
+                © 2025 &nbsp;&nbsp;<span style="border-right: 1px solid #FFF"></span>&nbsp;&nbsp;
+                contact&#64;iadorequotes.com
+            </div>
+
         </div>
     </div>
 </div>
