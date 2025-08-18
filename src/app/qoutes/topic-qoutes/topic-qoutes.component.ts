@@ -42,6 +42,11 @@ export class TopicQoutesComponent implements OnInit {
       this.topicName = params.topicName || null;
       if (topicId) {
 
+        this.page = 0;
+        this.hasMore = true;
+        this.allLoaded = false;        // <— important
+        this.qoutesList = [];
+
         //SEO
 
         // 1. <title> tag
@@ -85,9 +90,7 @@ export class TopicQoutesComponent implements OnInit {
 
 
 
-        this.page = 0;
-        this.hasMore = true;
-        this.qoutesList = [];
+
         // const topicQoutes$ = this.apiSer.getQoutesByTopicID(topicId).subscribe((res: any) => {
         //   if (res) {
         //     this.modifyData(res);

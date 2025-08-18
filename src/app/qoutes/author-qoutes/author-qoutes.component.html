@@ -21,6 +21,9 @@
                         </div>
                     </div>
 
+                    <!-- {{ introText }} -->
+
+
                     <!-- CONTENT -->
                     <div fxLayout="row" *ngFor="let item of qoutesList;let index=index" style="margin-top:5px;">
                         <div fxFlex style="display: flex;justify-content: center;">
@@ -51,7 +54,27 @@
         </div>
     </div>
 
+
     <ng-container *ngIf="allLoaded">
+        <!-- RELATED AUTHORS -->
+        <div class="textHeader2" style="margin-top:40px;text-align:center;">
+            Related Authors
+        </div>
+
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="20px"
+            *ngIf="getRelatedAuthors(authorName).length > 0">
+            <div fxFlex.lt-sm="95%" fxFlex.sm="45%" fxFlex.md="30%" fxFlex.gt-md="20%"
+                *ngFor="let rel of getRelatedAuthors(authorName)">
+                <mat-card class="authorCard" (click)="router.navigate(['/author/' + rel.id + '/' + rel.name])"
+                    style="margin-top: 25px; cursor: pointer;">
+                    <mat-card-content class="textFont">
+                        {{ rel.name }} Quotes
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+
+
         <!-- AUTHORS -->
         <app-authors [fromHome]="true"></app-authors>
 

@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, HostListener, Renderer2, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/utility/api.service';
 import { CommonService } from 'src/app/utility/common.service';
+import { Title, Meta } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-top100',
@@ -17,15 +19,54 @@ export class Top100Component implements OnInit {
   page = 0;
   hasMore = true;
 
+  introText: string = `The Top 100 Quotes collection offers the most inspiring, motivational, life and love quotes from famous authors around the world. These hand-picked quotes are meant to uplift, inspire and encourage. Popular variations include top inspirational quotes, top motivational quotes, best famous quotes, most popular quotes and top quotes of all time.`;
+
   private subscription: Subscription = new Subscription();
 
   constructor(
     private router: Router,
     private apiSer: ApiService,
-    private commonSer: CommonService
+    private commonSer: CommonService,
+    private titleService: Title,
+    private metaService: Meta,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) { }
 
   ngOnInit(): void {
+
+    //SEO
+
+    // Title + Meta
+    this.titleService.setTitle('Top 100 Quotes – IAdoreQuotes');
+    this.metaService.updateTag({
+      name: 'description',
+      content: 'Discover the top 100 most inspiring, motivational, life and love quotes from famous authors. Updated daily with top inspirational quotes, top motivational quotes, best famous quotes, most popular quotes and top quotes of all time.'
+    });
+
+    // Schema
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Top 100 Quotes",
+      "description": "Discover the top 100 most inspiring, motivational, life and love quotes from famous authors. Updated daily with top inspirational quotes, top motivational quotes, best famous quotes, most popular quotes and top quotes of all time.",
+      "author": {
+        "@type": "Person",
+        "name": "IAdoreQuotes"
+      },
+      "datePublished": new Date().toISOString().split('T')[0],
+      "url": window.location.href
+    };
+
+    const old = this.document.getElementById('quoteSchema');
+    if (old) old.remove();
+    const script = this.renderer.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'quoteSchema';
+    script.text = JSON.stringify(schemaData);
+    this.renderer.appendChild(this.document.head, script);
+
+
     this.getTop100();
     this.commonSer.updateStatsCount();
   }

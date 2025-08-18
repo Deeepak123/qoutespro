@@ -1,7 +1,26 @@
 {
   "hosting": {
     "public": "dist/proqoutesui",
+    "headers": [
+      {
+        "source": "/sitemap_v1.xml",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/xml"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-transform"
+          }
+        ]
+      }
+    ],
     "rewrites": [
+      {
+        "source": "/sitemap_v1.xml",
+        "destination": "/assets/sitemap_v1.xml"
+      },
       {
         "source": "**",
         "destination": "/index.html"
