@@ -19,6 +19,7 @@ export class AuthorQoutesComponent implements OnInit {
   hasMore = true;
   allLoaded = false;
   introText: any;
+  isLoading = false;
 
   private subscription: Subscription = new Subscription();
 
@@ -88,6 +89,7 @@ export class AuthorQoutesComponent implements OnInit {
   }
 
   getAuthorQuotes(authorId: number) {
+    this.isLoading = true;
     const req$ = this.apiSer.getQoutesByAuthorID(authorId, this.page).subscribe((res: any) => {
       if (res && res.length > 0) {
         this.modifyData(res);
@@ -102,6 +104,8 @@ export class AuthorQoutesComponent implements OnInit {
         this.hasMore = false;
         this.allLoaded = true;
       }
+
+      this.isLoading = false;
     });
 
     this.subscription.add(req$);
@@ -117,7 +121,7 @@ export class AuthorQoutesComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    if (!this.hasMore) {
+    if (!this.hasMore || this.isLoading) {
       return;
     }
 

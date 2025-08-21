@@ -15,6 +15,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   page = 0;
   hasMore = true;
   allLoaded = false;
+  isLoading = false;
 
   private subscription: Subscription = new Subscription();
 
@@ -40,6 +41,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   loadNextPage(keyword: string): void {
+    this.isLoading = true;
     const req$ = this.apiSer.searchGlobalInQoutes(keyword, this.page).subscribe((res: any) => {
       if (res && res.length > 0) {
         this.modifyData(res);
@@ -55,6 +57,8 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
         this.hasMore = false;
         this.allLoaded = true;
       }
+
+      this.isLoading = false;
     });
 
     this.subscription.add(req$);
@@ -70,7 +74,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
-    if (!this.hasMore) {
+    if (!this.hasMore || this.isLoading) {
       return;
     }
 

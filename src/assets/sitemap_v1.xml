@@ -4,7 +4,7 @@
   <!-- Home -->
   <url>
     <loc>https://www.iadorequotes.com/</loc>
-    <lastmod>2025-08-17</lastmod>
+    <lastmod>2025-08-21</lastmod>
   </url>
 
   <!-- Topics List Page -->
@@ -17,6 +17,18 @@
   <url>
     <loc>https://www.iadorequotes.com/authors</loc>
     <lastmod>2025-08-17</lastmod>
+  </url>
+
+   <!-- Privacy Policy Page -->
+  <url>
+    <loc>https://www.iadorequotes.com/privacy-policy</loc>
+    <lastmod>2025-08-21</lastmod>
+  </url>
+
+   <!-- Contact Us Page -->
+  <url>
+    <loc>https://www.iadorequotes.com/contact-us</loc>
+    <lastmod>2025-08-21</lastmod>
   </url>
 
   <!-- Topic Pages -->

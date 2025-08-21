@@ -14,7 +14,7 @@
                                 <div class="row">
                                     <!-- LOGO -->
                                     <div class="col-sm-2 col-4">
-                                        <img (click)="routTo('/home')" class="img-fluid" [ngClass.gt-sm]="'logoBig'"
+                                        <img (click)="routTo('/')" class="img-fluid" [ngClass.gt-sm]="'logoBig'"
                                             [ngClass.sm]="'logoSmall'" [ngClass.lt-sm]="'logoSmall'"
                                             src="../../../assets/images/iadorequotes-logo-transparent-master.png"
                                             style="cursor: pointer;">
@@ -23,8 +23,8 @@
                                     <div class="col-sm-9 col-6 primary-txt-color no-padding"
                                         style="white-space:pre-line;">
                                         <div fxHide.lt-sm="true">
-                                            <button [ngClass]="{ 'active': router.url === '/home' }"
-                                                (click)="routTo('/home')" mat-button class="textFont home">Home</button>
+                                            <button [ngClass]="{ 'active': router.url === '/' }" (click)="routTo('/')"
+                                                mat-button class="textFont home">Home</button>
                                             <button [ngClass]="{ 'active': router.url === '/authors' }"
                                                 (click)="routTo('/authors')" mat-button
                                                 class="textFont authors">Authors</button>

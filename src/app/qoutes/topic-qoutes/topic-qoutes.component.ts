@@ -20,6 +20,7 @@ export class TopicQoutesComponent implements OnInit {
   hasMore = true;
   allLoaded = false;
   introText: any
+  isLoading = false;
 
   private subscription: Subscription = new Subscription();
 
@@ -94,6 +95,7 @@ export class TopicQoutesComponent implements OnInit {
   }
 
   getTopicQuotes(topicId: number) {
+    this.isLoading = true;
     const req$ = this.apiSer.getQoutesByTopicID(topicId, this.page).subscribe((res: any) => {
       if (res && res.length > 0) {
         this.modifyData(res);
@@ -108,6 +110,8 @@ export class TopicQoutesComponent implements OnInit {
         this.hasMore = false;
         this.allLoaded = true;
       }
+
+      this.isLoading = false;
     });
 
     this.subscription.add(req$);
@@ -123,7 +127,7 @@ export class TopicQoutesComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    if (!this.hasMore) {
+    if (!this.hasMore || this.isLoading) {
       return;
     }
 

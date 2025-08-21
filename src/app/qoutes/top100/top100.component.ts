@@ -18,6 +18,7 @@ export class Top100Component implements OnInit {
   top100List: any = [];
   page = 0;
   hasMore = true;
+  isLoading = false;
   introText: string = `The Top 100 Quotes collection offers the most inspiring, motivational, life and love quotes from famous authors around the world. These hand-picked quotes are meant to uplift, inspire and encourage. Popular variations include top inspirational quotes, top motivational quotes, best famous quotes, most popular quotes and top quotes of all time.`;
 
   private subscription: Subscription = new Subscription();
@@ -71,7 +72,7 @@ export class Top100Component implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
-    if (!this.hasMore) {
+    if (!this.hasMore || this.isLoading) {
       return;
     }
 
@@ -85,6 +86,7 @@ export class Top100Component implements OnInit {
   }
 
   getTop100 = () => {
+    this.isLoading = true;
     const top100Res$ = this.apiSer.getTopHundredQoutes(this.page).subscribe(
       (res: any) => {
         // res can be undefined, null, or an empty array, so handle all cleanly
@@ -102,9 +104,12 @@ export class Top100Component implements OnInit {
           this.hasMore = false;
           this.allLoaded.emit(true);
         }
+
+        this.isLoading = false;   // ✅ allow next load
       },
       (error: any) => {
         console.log('ERROR:' + error);
+        this.isLoading = false;   // ✅ allow retry
       }
     );
 

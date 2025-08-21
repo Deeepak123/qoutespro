@@ -14,7 +14,7 @@
                                 <div class="row">
                                     <!-- LOGO -->
                                     <div class="col-sm-2 col-4">
-                                        <img (click)="routTo('/home')" class="img-fluid" [ngClass.gt-sm]="'logoBig'"
+                                        <img (click)="routTo('/')" class="img-fluid" [ngClass.gt-sm]="'logoBig'"
                                             [ngClass.sm]="'logoSmall'" [ngClass.lt-sm]="'logoSmall'"
                                             src="../../../assets/images/logo1.png" style="cursor: pointer;">
                                     </div>
@@ -23,7 +23,7 @@
                                         style="white-space:pre-line;">
                                         <div fxHide.lt-sm="true">
                                             <button [ngClass]="{'selectedMenuStyle': selectedMenu == 'home'}"
-                                                (click)="routTo('/home')" mat-button class="textFont home">Home</button>
+                                                (click)="routTo('/')" mat-button class="textFont home">Home</button>
                                             <button [ngClass]="{'selectedMenuStyle': selectedMenu == 'authors'}"
                                                 (click)="routTo('/authors')" mat-button
                                                 class="textFont authors">Authors</button>

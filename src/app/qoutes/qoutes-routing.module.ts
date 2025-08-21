@@ -14,8 +14,8 @@ import { ContactComponent } from './contact/contact.component';
 const routes: Routes = [
   {
     path: '', component: ParentLayerComponent, children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', redirectTo: '', pathMatch: 'full' },
       { path: 'authors', component: AuthorsComponent },
       { path: 'author/:authorId/:authorName', component: AuthorQoutesComponent },
       { path: 'topics', component: TopicsComponent },
@@ -24,6 +24,8 @@ const routes: Routes = [
       { path: 'privacy-policy', component: PrivacyComponent },
       { path: 'contact-us', component: ContactComponent },
       { path: 'sQ', component: StatsComponent },
+
+      { path: '**', redirectTo: '' },
     ],
   },
 ];
