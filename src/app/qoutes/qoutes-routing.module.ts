@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { StatsComponent } from './stats/stats.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { ContactComponent } from './contact/contact.component';
+import { AboutComponent } from './about/about.component';
+import { TermsComponent } from './terms/terms.component';
 
 const routes: Routes = [
   {
@@ -23,6 +25,8 @@ const routes: Routes = [
       { path: 'search-results', component: SearchResultsComponent },
       { path: 'privacy-policy', component: PrivacyComponent },
       { path: 'contact-us', component: ContactComponent },
+      { path: 'about-us', component: AboutComponent },
+      { path: 'terms-and-conditions', component: TermsComponent },
       { path: 'sQ', component: StatsComponent },
 
       { path: '**', redirectTo: '' },

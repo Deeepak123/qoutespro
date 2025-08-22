@@ -20,6 +20,7 @@ export class TopicQoutesComponent implements OnInit {
   hasMore = true;
   allLoaded = false;
   introText: any
+  introTextDisplay: any
   isLoading = false;
 
   private subscription: Subscription = new Subscription();
@@ -58,7 +59,11 @@ export class TopicQoutesComponent implements OnInit {
 
         // 3. H1 and intro text
         // (you already assign {{topicName}} in template as page header, so now just create an intro paragraph variable)
+        //for seo intro
         this.introText = this.getIntroParagraph(this.topicName);
+
+        //display seo intro
+        this.introTextDisplay = this.getTopicIntro(this.topicName);
 
 
         // ----- STRUCTURED DATA (SEO Schema) -----
@@ -407,6 +412,36 @@ export class TopicQoutesComponent implements OnInit {
         return [];
     }
   }
+
+  getTopicIntro(topic: string): string {
+    const intros: Record<string, string> = {
+      Happiness: "Happiness is found in simple moments.",
+      Success: "Success is built through effort and persistence.",
+      Love: "Love is the bond that unites hearts.",
+      Life: "Life is a journey of lessons and growth.",
+      Living: "Living fully means embracing every moment.",
+      Kindness: "Kindness is a gift that always matters.",
+      Inspiration: "Inspiration sparks action and new ideas.",
+      Dreams: "Dreams shape the path to our future.",
+      Confidence: "Confidence is believing in your own strength.",
+      Anxiety: "Anxiety may visit, but calm can stay.",
+      Courage: "Courage is facing fear with strength.",
+      Motivational: "Motivation pushes us toward our best self.",
+      Failure: "Failure is not the end, but a lesson.",
+      Fear: "Fear fades when courage takes the lead.",
+      Forgiveness: "Forgiveness heals and sets the heart free.",
+      Freedom: "Freedom is living life on your own terms.",
+      Leadership: "Leadership inspires others to rise higher.",
+      Pain: "Pain teaches resilience and strength.",
+      Past: "The past holds lessons, not limits.",
+      Time: "Time is precious—use it wisely.",
+      Truth: "Truth builds trust and clarity.",
+      Work: "Work with passion to create meaning."
+    };
+
+    return intros[topic] || "Discover inspiring quotes on this topic.";
+  }
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

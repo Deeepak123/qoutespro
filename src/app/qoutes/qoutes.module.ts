@@ -19,6 +19,8 @@ import { HomeComponent } from './home/home.component';
 import { StatsComponent } from './stats/stats.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { ContactComponent } from './contact/contact.component';
+import { AboutComponent } from './about/about.component';
+import { TermsComponent } from './terms/terms.component';
 @NgModule({
   declarations: [
     ParentLayerComponent,
@@ -35,6 +37,8 @@ import { ContactComponent } from './contact/contact.component';
     StatsComponent,
     PrivacyComponent,
     ContactComponent,
+    AboutComponent,
+    TermsComponent,
   ],
   imports: [
     CommonModule,
