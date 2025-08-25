@@ -1,0 +1,45 @@
+<div fxLayout="column" [ngStyle.xs]="{'margin-top':'10vh'}" style="margin-top:17vh;">
+    <div fxLayout="row">
+        <div fxFlex>
+            <div fxLayout="row">
+                <div fxFlex>
+                    <!-- HEADER -->
+                    <div fxLayout="row">
+                        <div fxFlex>
+                            <div class="textHeader" [ngStyle.xs]="{'font-size':'1.30rem'}" fxLayoutAlign="center center"
+                                style="cursor:default;">
+                                Best & Trending Quote Collections
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INTRO -->
+                    <p class="textFont" style="margin-top:15px; text-align:center;">
+                        Browse handpicked quote collections by topic—best of all time, trending now, short captions,
+                        romantic, motivational, and more.
+                    </p>
+
+                    <!-- CONTENT: grid like Authors page -->
+                    <div class="collectionGrid">
+                        <div class="collectionCell" *ngFor="let t of collections; trackBy: trackTopic">
+                            <mat-card class="topicCard">
+                                <mat-card-content>
+                                    <h2 class="textHeader2" style="margin:0;">
+                                        <span *ngIf="t.emoji">{{ t.emoji }} </span>{{ t.title }}
+                                    </h2>
+                                    <ul class="linkList">
+                                        <li *ngFor="let l of t.links; trackBy: trackLink">
+                                            <a [routerLink]="l.path" class="textFont2 linkItem">{{ l.label }}</a>
+                                        </li>
+                                    </ul>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:100px;"></div>

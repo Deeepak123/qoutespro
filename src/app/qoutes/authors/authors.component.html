@@ -13,28 +13,39 @@
 
                     <!-- {{ introText }} -->
 
-
                     <!-- SEARCH -->
                     <div fxLayout="row" style="margin-top: 15px;">
-                        <div fxFlex style="justify-content: center;display: flex;">
-                            <input [(ngModel)]="searchText" type="text" class="form-control"
-                                placeholder="Search Author..." style="width: 60%;" [ngStyle.lt-sm]="{'width':'75%'}"
-                                [ngStyle.sm]="{'width':'75%'}">
+                        <div fxFlex style="justify-content: center; display: flex;">
+                            <input [(ngModel)]="searchText" (ngModelChange)="onSearchChange($event)" type="text"
+                                class="form-control" placeholder="Search Author..." style="width: 60%;"
+                                [ngStyle.lt-sm]="{'width':'75%'}" [ngStyle.sm]="{'width':'75%'}">
                         </div>
                     </div>
 
-                    <!-- CONTENT -->
-                    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="20px">
-                        <div fxFlex.lt-sm="90%" fxFlex.sm="45%" fxFlex.md="30%" fxFlex.gt-md="20%"
-                            *ngFor="let item of authorsList | searchFilter:searchText;let index=index">
-                            <mat-card class="authorCard" (click)="selectedAuthor(item)"
-                                style="margin-top: 25px;cursor: pointer;">
+                    <!-- LETTER FILTER -->
+                    <!-- Desktop: horizontal A–Z bar -->
+                    <div class="letterBar">
+                        <span (click)="filterByLetter('')" [class.active]="!selectedLetter">All</span>
+                        <span *ngFor="let l of alphabet" (click)="filterByLetter(l)"
+                            [class.active]="selectedLetter === l">
+                            {{ l }}
+                        </span>
+                    </div>
+                    <div style="height: 10px;"></div>
+                    <!-- fxHide.lt-md -->
+
+                    <!-- CONTENT: plain grid (filtered by letter + search) -->
+                    <div class="authorGrid">
+                        <div class="authorCell"
+                            *ngFor="let item of filteredAuthors | searchFilter: searchText; trackBy: trackByAuthorId">
+                            <mat-card class="authorCard" (click)="selectedAuthor(item)">
                                 <mat-card-content class="textFont">
-                                    {{item.authorName}}
+                                    {{ item.authorName }}
                                 </mat-card-content>
                             </mat-card>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

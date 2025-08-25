@@ -11,6 +11,7 @@ import { TopicsComponent } from './topics/topics.component';
 import { AuthorQoutesComponent } from './author-qoutes/author-qoutes.component';
 import { TopicQoutesComponent } from './topic-qoutes/topic-qoutes.component';
 import { SearchFilter } from '../utility/search-filter';
+import { TopicSearchPipe } from '../utility/topicsearch.pipe';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from './footer/footer.component';
@@ -21,6 +22,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
 import { TermsComponent } from './terms/terms.component';
+import { CollectionsComponent } from './collections/collections.component';
+import { CollectionComponent } from './collection/collection.component';
 @NgModule({
   declarations: [
     ParentLayerComponent,
@@ -30,6 +33,7 @@ import { TermsComponent } from './terms/terms.component';
     AuthorQoutesComponent,
     TopicQoutesComponent,
     SearchFilter,
+    TopicSearchPipe,
     SearchResultsComponent,
     FooterComponent,
     HomeComponent,
@@ -39,6 +43,8 @@ import { TermsComponent } from './terms/terms.component';
     ContactComponent,
     AboutComponent,
     TermsComponent,
+    CollectionsComponent,
+    CollectionComponent,
   ],
   imports: [
     CommonModule,

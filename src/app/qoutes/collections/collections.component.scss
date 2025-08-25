@@ -1,0 +1,95 @@
+/* reuse your authors page typography */
+.textHeader {
+    font-family: 'Q ExBold';
+    color: #5a5a5a !important;
+    font-weight: bolder;
+    font-size: 1.50rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.textHeader2 {
+    font-family: 'Q ExBold';
+    color: #5a5a5a !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.textFont {
+    font-family: 'Q Medium';
+    color: #5a5a5a;
+    font-weight: 500;
+    font-size: 1.10rem;
+    line-height: 33px;
+    text-align: center;
+    margin-top: 6px;
+}
+
+.textFont2 {
+    font-family: 'Q Medium';
+    color: #5a5a5a;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 28px;
+    // text-align: center;
+    word-wrap: break-word;
+}
+
+/* GRID (same pattern as .authorGrid) */
+.collectionGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    /* aligns like Authors */
+    gap: 20px;
+    align-items: stretch;
+    padding: 0 5%;
+    margin: 20px auto;
+    /* max-width: 1200px;  // uncomment if you want a hard cap */
+}
+
+.collectionCell {}
+
+/* CARD look & hover (match authors) */
+.topicCard {
+    margin-top: 5px;
+    transition: all 0.25s;
+    cursor: default;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, .04);
+    overflow: hidden;
+}
+
+// .topicCard:hover {
+//     box-shadow: 12px 14px 25px rgba(0, 0, 0, 0.4);
+//     transform: scale(1.02);
+// }
+
+/* Links: always underlined */
+.linkList {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: grid;
+    justify-items: start;
+    /* left */
+    gap: 10px;
+}
+
+.linkItem {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color .15s ease, text-decoration-thickness .15s ease;
+    display: inline-block;
+}
+
+.linkItem:hover {
+    color: #000;
+    text-decoration-thickness: 2px;
+}

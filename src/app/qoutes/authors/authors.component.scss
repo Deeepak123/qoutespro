@@ -28,7 +28,7 @@
 }
 
 .authorCard {
-    margin-top: 25px;
+    margin-top: 5px;
     cursor: pointer;
     transition: all 0.25s;
 }
@@ -36,4 +36,87 @@
 .authorCard:hover {
     box-shadow: 12px 14px 25px rgba(0, 0, 0, 0.4);
     transform: scale(1.02);
+}
+
+/* A–Z grouping */
+.authorGroup {
+    margin-top: 30px;
+}
+
+.authorGroupHeader {
+    margin: 8px 0 6px;
+}
+
+.authorGroupTitle {
+    font-family: 'Q ExBold';
+    font-size: 1rem;
+    font-weight: 700;
+    color: #5a5a5a;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+
+/* A–Z filter bar (desktop) */
+.letterBar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    margin: 12px 0 6px;
+    flex-wrap: wrap;
+}
+
+.letterBar span {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #666;
+    user-select: none;
+}
+
+.letterBar span.active {
+    background: #333;
+    color: #fff;
+}
+
+/* Mobile dropdown */
+.letterSelect {
+    width: 75%;
+    max-width: 360px;
+    height: 38px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    // font-family: inherit;
+    font-family: 'Q Medium'
+}
+
+/* Grid for perfectly aligned cards */
+.authorGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    /* tweak 240–300px if you like */
+    gap: 20px;
+    align-items: stretch;
+    margin-top: 16px;
+
+    margin: 20px auto;
+    /* centers the grid block */
+    padding: 0 5%;
+    /* adds left/right breathing room */
+    //max-width: 1200px;
+    /* optional: prevents grid from stretching too wide */
+}
+
+.authorCell {
+    /* hook for future */
+}
+
+.authorCard .mat-card-content {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

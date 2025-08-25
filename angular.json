@@ -35,7 +35,12 @@
                 "output": "/"
               },
               {
-                "glob": "sitemap_v1.xml",
+                "glob": "ads.txt",
+                "input": "src/assets/",
+                "output": "/"
+              },
+              {
+                "glob": "sitemap.xml",
                 "input": "src/assets/",
                 "output": "/"
               }

@@ -12,11 +12,13 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
 import { TermsComponent } from './terms/terms.component';
+import { CollectionComponent } from './collection/collection.component';
+import { CollectionsComponent } from './collections/collections.component';
 
 const routes: Routes = [
   {
     path: '', component: ParentLayerComponent, children: [
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: CollectionsComponent, pathMatch: 'full' },
       { path: 'home', redirectTo: '', pathMatch: 'full' },
       { path: 'authors', component: AuthorsComponent },
       { path: 'author/:authorId/:authorName', component: AuthorQoutesComponent },
@@ -28,6 +30,10 @@ const routes: Routes = [
       { path: 'about-us', component: AboutComponent },
       { path: 'terms-and-conditions', component: TermsComponent },
       { path: 'sQ', component: StatsComponent },
+
+      //TOP 600 PAGES - Dynamically
+      { path: 'collections', component: CollectionsComponent },
+      { path: 'collection/:topic/:slug', component: CollectionComponent },
 
       { path: '**', redirectTo: '' },
     ],

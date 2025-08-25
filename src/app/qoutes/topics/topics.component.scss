@@ -1,3 +1,4 @@
+/* === PAGE HEADER (Topics) === */
 .textHeader {
     font-family: 'Q ExBold';
     color: #5a5a5a !important;
@@ -8,6 +9,7 @@
     word-wrap: break-word;
 }
 
+/* === TOPIC CARD TEXT === */
 .textFont {
     font-family: 'Q Medium';
     color: #5a5a5a;
@@ -17,17 +19,86 @@
     text-align: center;
 }
 
+/* === MATERIAL CARD FIX === */
 ::ng-deep .mat-card-header-text {
     margin: 0px;
 }
 
+/* === GROUP SECTIONS === */
+.groupSection {
+    margin-top: 40px;
+}
+
+/* Group header row (emoji + name centered) */
+.groupHeader {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Emoji styling */
+.groupEmoji {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* Group name styling */
+.groupTitle {
+    font-family: 'Q ExBold';
+    font-size: 1rem;
+    font-weight: 700;
+    color: #5a5a5a;
+    text-align: center;
+}
+
+/* === GRID: perfect left/right alignment + side padding === */
+.topicGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    /* tweak 240–300px if you prefer */
+    gap: 20px;
+    /* equal vertical + horizontal spacing */
+    align-items: stretch;
+
+    margin: 16px auto 0;
+    /* center the grid block + top spacing */
+    padding: 0 5%;
+    /* left/right white space */
+    // max-width: 1200px;
+    /* stops content from stretching too wide on big screens */
+}
+
+.topicCell {
+    /* reserved for future hooks */
+}
+
+/* === TOPIC CARD === */
 .topicCard {
-    margin-top: 25px;
     cursor: pointer;
     transition: all 0.25s;
+    /* no margin-top; the grid gap handles spacing */
 }
 
 .topicCard:hover {
     box-shadow: 12px 14px 25px rgba(0, 0, 0, 0.4);
     transform: scale(1.02);
+}
+
+.topicCard .mat-card-content {
+    min-height: 40px;
+    /* keeps rows neat if text wraps */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* === Responsive fine-tuning (optional) === */
+@media (max-width: 420px) {
+    .topicGrid {
+        grid-template-columns: 1fr;
+        /* single column on very small screens */
+        padding: 0 6%;
+    }
 }

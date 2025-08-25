@@ -26,12 +26,16 @@ export class ApiService {
     );
   }
 
-  getAuthors(): Observable<JSON> {
-    return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getAuthors', httpOptions);
+  getAuthors(): Observable<any[]> {
+    return this.http.get<any[]>(environment.SERVICE_URL + 'api/qoutes/getAuthors', httpOptions);
   }
 
   getTopics(): Observable<JSON> {
     return this.http.get<JSON>(environment.SERVICE_URL + 'api/qoutes/getTopics', httpOptions);
+  }
+
+  getTopicsNew() {
+    return this.http.get<any[]>(environment.SERVICE_URL + 'api/qoutes/getTopicsNew', httpOptions);
   }
 
   getQoutesByAuthorID(authorID: any, page: number): Observable<JSON> {
@@ -41,8 +45,8 @@ export class ApiService {
     );
   }
 
-  getQoutesByTopicID(topicID: any, page: number): Observable<JSON> {
-    return this.http.get<JSON>(
+  getQoutesByTopicID(topicID: any, page: number): Observable<any[]> {
+    return this.http.get<any[]>(
       `${environment.SERVICE_URL}api/qoutes/getQoutesByTopicID?topicID=${topicID}&page=${page}`,
       httpOptions
     );

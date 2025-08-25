@@ -13,9 +13,19 @@ import { DOCUMENT } from '@angular/common';
 })
 export class AuthorsComponent implements OnInit {
 
+  // Page copy
   introText: string = `This page provides a list of famous authors and thinkers, including list of famous authors, quotes by famous people, author quotes collection, browse author quote list and inspirational authors list.`;
-  authorsList: any = [];
-  searchText: string = "";
+
+  // Data
+  authorsList: any[] = [];        // full list from API
+  filteredAuthors: any[] = [];    // letter-filtered list (source for grid)
+
+  // Search + Letter filter
+  searchText: string = '';
+  alphabet: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  selectedLetter: string = '';
+
+  // Misc
   private subscription: Subscription = new Subscription();
   @Input() fromHome: boolean = false;
 
@@ -35,21 +45,21 @@ export class AuthorsComponent implements OnInit {
     if (!this.fromHome) {
       this.commonSer.updateStatsCount();
 
-      //SEO
-      // Title & Meta
+      // SEO — Title & Meta
       this.titleService.setTitle('Quotes by Authors – Full List of Famous Authors | IAdoreQuotes');
       this.metaService.updateTag({
         name: 'description',
-        content: 'Browse a complete list of famous authors and thinkers. Discover motivational, inspirational and life quotes by authors such as Einstein, Buddha, Gandhi, Oscar Wilde and more. Popular variations include list of famous authors, quotes by famous people, author quotes collection, browse author quote list and inspirational authors list.'
+        content:
+          'Browse a complete list of famous authors and thinkers. Discover motivational, inspirational and life quotes by authors such as Einstein, Buddha, Gandhi, Oscar Wilde and more. Popular variations include list of famous authors, quotes by famous people, author quotes collection, browse author quote list and inspirational authors list.'
       });
 
       // SCHEMA (CollectionPage)
       const schemaData = {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": "Quotes by Authors",
-        "description": "Browse a complete list of famous authors and thinkers.",
-        "url": window.location.href
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Quotes by Authors',
+        description: 'Browse a complete list of famous authors and thinkers.',
+        url: window.location.href
       };
 
       const oldScript = this.document.getElementById('quoteSchema');
@@ -63,22 +73,56 @@ export class AuthorsComponent implements OnInit {
     }
   }
 
+  /** Load authors and initialize filters */
   getAuthors = () => {
     this.authorsList = [];
-    const authorsRes$ = this.apiSer.getAuthors().subscribe((val: any) => {
-      if (val) {
-        this.authorsList = val;
-      }
-    }, (error: any) => {
-      console.log("ERROR:" + error);
-    })
-    this.subscription.add(authorsRes$);
+    const sub = this.apiSer.getAuthors().subscribe({
+      next: (val: any[]) => {
+        this.authorsList = Array.isArray(val) ? val : [];
+        this.applyLetterFilter(); // initial view = All
+      },
+      error: (err: any) => console.error('ERROR:', err)
+    });
+    this.subscription.add(sub);
+  };
+
+  /** User clicked a letter (or "All") */
+  filterByLetter(letter: string) {
+    this.selectedLetter = letter || '';
+    this.applyLetterFilter();
   }
 
-  selectedAuthor = (item: any) => {
-    this.searchText = "";
-    this.router.navigate(['author/' + item.id + "/" + item.authorName]);
+  /** Apply the letter filter to authorsList -> filteredAuthors */
+  private applyLetterFilter() {
+    if (!this.selectedLetter) {
+      this.filteredAuthors = this.authorsList.slice();
+      return;
+    }
+    const L = this.selectedLetter.toUpperCase();
+    this.filteredAuthors = this.authorsList.filter(a =>
+      (a.authorName || '').toUpperCase().startsWith(L)
+    );
   }
+
+  /** Called on search box change (kept for future debouncing/server-side search if needed) */
+  onSearchChange(_: string) {
+    // No-op: search is handled in template via pipe (searchFilter)
+    // Keep this hook if you want to debounce or trigger server-side search later.
+  }
+
+  /** TrackBy for *ngFor performance */
+  trackByAuthorId = (_: number, a: any) => a.id;
+
+  /** Navigate to author page */
+  selectedAuthor = (item: any) => {
+    this.searchText = '';
+    this.router.navigate(['author', item.id, item.authorName]);
+  };
+
+  clearLetter() {
+    this.filterByLetter('');
+  }
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

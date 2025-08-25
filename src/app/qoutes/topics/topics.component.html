@@ -1,34 +1,51 @@
 <div fxLayout="column" [ngStyle.xs]="{'margin-top':'10vh'}" style="margin-top:17vh;">
     <div fxLayout="row">
         <div fxFlex>
+            <!-- PAGE HEADER -->
             <div fxLayout="row">
                 <div fxFlex>
-                    <!-- HEADER -->
-                    <div fxLayout="row">
-                        <div fxFlex>
-                            <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}"
-                                fxLayoutAlign="center center" style="cursor: default;">Topics</div>
-                        </div>
+                    <div class="textHeader" [ngStyle.xs]="{'font-size': '1.30rem'}" fxLayoutAlign="center center"
+                        style="cursor: default;">
+                        Topics
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEARCH -->
+            <div fxLayout="row" style="margin-top: 15px;">
+                <div fxFlex style="justify-content: center; display: flex;">
+                    <input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Search Topic..."
+                        style="width: 60%;" [ngStyle.lt-sm]="{'width':'75%'}" [ngStyle.sm]="{'width':'75%'}">
+                </div>
+            </div>
+
+            <!-- GROUPS -->
+            <div *ngFor="let g of groups; trackBy: trackByGroupId" class="groupSection">
+
+                <!-- Only render group if it has filtered topics -->
+                <ng-container *ngIf="(g.topics | topicSearch: searchText).length > 0">
+
+                    <!-- GROUP NAME centered -->
+                    <div fxLayout="row" fxLayoutAlign="center center" class="groupHeader">
+                        <span class="groupEmoji">{{ g.emoji }}</span>
+                        <span class="groupTitle">{{ g.group_name }}</span>
                     </div>
 
-
-                    <!-- {{ introText }} -->
-
-
-                    <!-- CONTENT -->
-                    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="20px">
-                        <div fxFlex.lt-sm="95%" fxFlex.sm="45%" fxFlex.md="30%" fxFlex.gt-md="20%"
-                            *ngFor="let item of topicsList;let index=index">
-                            <mat-card class="topicCard" (click)="selectedTopic(item)"
-                                style="margin-top: 25px;cursor: pointer;">
+                    <!-- TOPICS under the group (CSS Grid for perfect alignment) -->
+                    <div class="topicGrid">
+                        <div class="topicCell"
+                            *ngFor="let t of (g.topics | topicSearch: searchText); trackBy: trackByTopicId">
+                            <mat-card class="topicCard" (click)="selectedTopic(t)">
                                 <mat-card-content class="textFont">
-                                    {{item.topicName}}
+                                    {{ t.name }}
                                 </mat-card-content>
                             </mat-card>
                         </div>
                     </div>
-                </div>
+
+                </ng-container>
             </div>
+            <!-- /GROUPS -->
         </div>
     </div>
 </div>

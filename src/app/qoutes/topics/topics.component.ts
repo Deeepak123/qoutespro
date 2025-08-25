@@ -12,9 +12,18 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./topics.component.scss']
 })
 export class TopicsComponent implements OnInit {
-
   introText: string = `This page lists all quote topics and categories, including quote categories list, all inspirational quote topics, list of quote topics, browse quote themes and explore quote subjects.`;
-  topicsList: any = [];
+
+  searchText: string = "";
+
+  // replaced flat list with grouped list
+  groups: Array<{
+    group_id: number;
+    group_name: string;
+    emoji: string;
+    topics: { id: number; name: string }[];
+  }> = [];
+
   private subscription: Subscription = new Subscription();
   @Input() fromHome: boolean = false;
 
@@ -29,13 +38,12 @@ export class TopicsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getTopics();
+    this.getTopicGroups();
 
     if (!this.fromHome) {
       this.commonSer.updateStatsCount();
 
-      //SEO
-      // Title & Meta
+      // SEO
       this.titleService.setTitle('Quote Topics – Explore All Categories | IAdoreQuotes');
       this.metaService.updateTag({
         name: 'description',
@@ -62,23 +70,44 @@ export class TopicsComponent implements OnInit {
     }
   }
 
-  getTopics = () => {
-    this.topicsList = [];
-    const topicsRes$ = this.apiSer.getTopics().subscribe((val: any) => {
-      if (val) {
-        this.topicsList = val;
-      }
-    }, (error: any) => {
-      console.log("ERROR:" + error);
-    })
-    this.subscription.add(topicsRes$);
+  // NEW: fetch grouped topics
+  getTopicGroups = () => {
+    const sub = this.apiSer.getTopicsNew().subscribe({
+      next: (val: any) => {
+        // expecting the API to return: [{group_id, group_name, emoji, topics:[{id,name},...]}, ...]
+        this.groups = Array.isArray(val) ? val : [];
+      },
+      error: (err: any) => console.error('ERROR:', err)
+    });
+    this.subscription.add(sub);
   }
 
-  selectedTopic = (item: any) => {
-    let topicId = item.id;
-    let topicName = item.topicName;
-    this.router.navigate(['topic/' + topicId + "/" + topicName]);
+  // click handler works with {id, name}
+  selectedTopic = (t: { id: number; name: string }) => {
+    this.searchText = "";
+
+    let topicId = t.id;
+
+    if (topicId === 79) {
+      topicId = 5;  // remap instead of mutating
+    }
+
+    if (topicId === 80) {
+      topicId = 6;  // remap instead of mutating
+    }
+
+    if (topicId === 83) {
+      topicId = 9;  // remap instead of mutating
+    }
+
+
+    this.router.navigate(['topic', topicId, t.name]);
   }
+
+
+  // trackBys for performance
+  trackByGroupId = (_: number, g: any) => g.group_id;
+  trackByTopicId = (_: number, t: any) => t.id;
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

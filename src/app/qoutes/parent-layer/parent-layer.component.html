@@ -32,6 +32,10 @@
                                                 (click)="routTo('/topics')" mat-button
                                                 class="textFont topics">Topics</button>
 
+                                            <button [ngClass]="{ 'active': router.url === '/collections' }"
+                                                (click)="routTo('/collections')" mat-button
+                                                class="textFont topics">🔥Trending Quotes</button>
+
                                             <!-- SEARCH UI -->
                                             <div fxHide.sm="true" style="width:300px;float: right;">
                                                 <input [(ngModel)]="searchedKeyword" placeholder="Search..."

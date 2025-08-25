@@ -1,0 +1,68 @@
+.cardStyle {
+    width: 450px;
+}
+
+.authorName:hover {
+    // text-decoration: underline;
+    color: #000;
+    font-weight: 600;
+}
+
+.textHeader {
+    font-family: 'Q ExBold';
+    color: #5a5a5a !important;
+    font-weight: bolder;
+    font-size: 1.50rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+    max-width: 450px;
+}
+
+.textHeader2 {
+    font-family: 'Q ExBold';
+    color: #5a5a5a !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.textFont {
+    font-family: 'Q Regular';
+    color: #5a5a5a;
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.textFont2 {
+    font-family: 'Q Black';
+    color: #5a5a5a;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 33px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.authorName {
+    margin-top: 0px;
+    float: right;
+    cursor: pointer !important;
+    transition: all 0.2s;
+}
+
+.topicCard {
+    margin-top: 25px;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.topicCard:hover {
+    box-shadow: 12px 14px 25px rgba(0, 0, 0, 0.4);
+    transform: scale(1.02);
+}
