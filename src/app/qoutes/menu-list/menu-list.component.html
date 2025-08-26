@@ -1,43 +1,25 @@
-<div class="container-fluid">
-    <div style="height: 26px;"></div>
-    <div class="row">
-        <div class="col no-padding ">
-            <span class="material-icons pull-right closeBtn" (click)="closeToggle()">
-                close
-            </span>
+<!-- menu.component.html (drawer content) -->
+<div class="menu-root">
+    <div class="menu-header">
+        <span class="material-icons closeBtn" (click)="closeToggle()">close</span>
+    </div>
+
+    <div class="menu-scroll">
+        <div class="menu-list">
+            <div (click)="routTo('/')" class="textHeader home">Home</div>
+
+            <div (click)="routTo('/authors')" class="textHeader authors">Authors</div>
+            <div (click)="routTo('/topics')" class="textHeader topics">Topics</div>
+            <div (click)="routTo('/collections')" class="textHeader topHun">🔥Trending Quotes</div>
+
+            <div (click)="routTo('/privacy-policy')" class="textHeader3">Privacy Policy</div>
+            <div (click)="routTo('/contact-us')" class="textHeader3">Contact Us</div>
+            <div (click)="routTo('/about-us')" class="textHeader3">About Us</div>
+            <div (click)="routTo('/terms-and-conditions')" class="textHeader3">Terms &amp; Conditions</div>
         </div>
     </div>
-    <div class="row" style="margin-top: 10px;">
-        <div class="col" style="max-height: calc(100vh - 135px); overflow: auto;">
-            <div fxLayout="row">
-                <div fxFlex>
-                    <div (click)="routTo('/')" class="textHeader home" fxLayoutAlign="center center">Home</div>
-                    <div (click)="routTo('/authors')" class="textHeader authors" fxLayoutAlign="center center"
-                        style="margin-top:10px">Authors</div>
-                    <div (click)="routTo('/topics')" class="textHeader topics" fxLayoutAlign="center center"
-                        style="margin-top:10px">Topics</div>
-                    <div (click)="routTo('/collections')" class="textHeader topHun" fxLayoutAlign="center center"
-                        style="margin-top:10px">🔥Trending Quotes
-                    </div>
-                    <div (click)="routTo('/privacy-policy')" class="textHeader3 topHun" fxLayoutAlign="center center"
-                        style="margin-top:10px">Privacy Policy
-                    </div>
-                    <div (click)="routTo('/contact-us')" class="textHeader3 topHun" fxLayoutAlign="center center"
-                        style="margin-top:10px">Contact Us
-                    </div>
-                    <div (click)="routTo('/about-us')" class="textHeader3 topHun" fxLayoutAlign="center center"
-                        style="margin-top:10px">About Us
-                    </div>
-                    <div (click)="routTo('/terms-and-conditions')" class="textHeader3 topHun"
-                        fxLayoutAlign="center center" style="margin-top:10px">Terms & Conditions
-                    </div>
-                    <div class="contactUs" style="margin-top:20px;">
-                        © 2025 &nbsp;&nbsp;<span style="border-right: 1px solid #FFF"></span>&nbsp;&nbsp;
-                        contact&#64;iadorequotes.com
-                    </div>
-                </div>
-            </div>
-        </div>
+
+    <div class="menu-footer">
+        © 2025 &nbsp;&nbsp;<span class="footer-sep"></span>&nbsp;&nbsp; contact&#64;iadorequotes.com
     </div>
-    <div style="height: 120px;"></div>
 </div>

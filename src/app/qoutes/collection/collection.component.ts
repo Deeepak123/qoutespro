@@ -1,6 +1,4 @@
-import {
-  Component, HostListener, Inject, OnDestroy, OnInit, Renderer2
-} from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
@@ -17,7 +15,7 @@ type QuoteItem = { qoutes: string; authorId?: number; authorName?: string; istop
   templateUrl: './collection.component.html',
   styleUrls: ['./collection.component.scss']
 })
-export class CollectionComponent implements OnInit, OnDestroy {
+export class CollectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // UI data for your template
   qoutesList: QuoteItem[] = [];
@@ -36,6 +34,12 @@ export class CollectionComponent implements OnInit, OnDestroy {
   private isYearPage = false;
   private sub = new Subscription();
 
+  // ADD these fields
+  private scrollEl?: HTMLElement;
+  private readonly bottomThreshold = 150;
+  private readonly scrollHandler = () => this.onScroll();
+
+
   pageIntro: any;
   Y = new Date().getFullYear();
 
@@ -49,13 +53,28 @@ export class CollectionComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document
   ) { }
 
+  // ADD this lifecycle hook
+  ngAfterViewInit(): void {
+    this.scrollEl = this.document.getElementById('contentScroll') as HTMLElement;
+    if (this.scrollEl) {
+      this.scrollEl.addEventListener('scroll', this.scrollHandler, { passive: true });
+    }
+  }
+
+
   ngOnInit(): void {
     this.sub.add(
       this.route.paramMap.subscribe(pm => {
         // reset
-        window.scrollTo(0, 0);
+        //window.scrollTo(0, 0);
         this.page = 0; this.hasMore = true; this.allLoaded = false; this.isLoading = false;
         this.qoutesList = [];
+
+        // ADD this tiny reset (inside the params subscription)
+        setTimeout(() => {
+          if (this.scrollEl) this.scrollEl.scrollTop = 0;
+        });
+
 
         const topicSlug = (pm.get('topic') ?? '').toLowerCase();
         const raw = (pm.get('slug') ?? '').toLowerCase(); // "best-love-quotes" or "love-quotes-2025"
@@ -128,16 +147,6 @@ export class CollectionComponent implements OnInit, OnDestroy {
     });
 
     this.sub.add(sub);
-  }
-
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    if (!this.hasMore || this.isLoading) return;
-    const pos = window.pageYOffset + window.innerHeight;
-    const max = document.documentElement.scrollHeight;
-    if (pos >= max - 150) {
-      this.getCollectionQuotes();
-    }
   }
 
   // Click on author
@@ -427,7 +436,24 @@ export class CollectionComponent implements OnInit, OnDestroy {
     }
   }
 
+  // ADD this method
+  private onScroll(): void {
+    if (!this.hasMore || this.isLoading || !this.scrollEl) return;
+
+    const pos = this.scrollEl.scrollTop + this.scrollEl.clientHeight;
+    const max = this.scrollEl.scrollHeight;
+
+    if (pos >= max - this.bottomThreshold) {
+      this.getCollectionQuotes();
+    }
+  }
+
+
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    if (this.scrollEl) {
+      this.scrollEl.removeEventListener('scroll', this.scrollHandler);
+    }
   }
+
 }

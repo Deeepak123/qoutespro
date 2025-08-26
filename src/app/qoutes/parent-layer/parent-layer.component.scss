@@ -1,55 +1,155 @@
+/* ----- Drawer container fills viewport; hide x-overflow ----- */
+.drawer-container {
+    height: 100dvh;
+    overflow: hidden;
+}
+
+/* ----- Drawer width is explicit to avoid overflow during animation ----- */
+.matDrawerStyle {
+    background: #000;
+    color: #fff;
+    width: 92vw;
+
+    @media (min-width: 600px) {
+        width: 520px;
+    }
+
+    @media (min-width: 960px) {
+        /* tablets / small desktops */
+        width: 600px;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-navbar .search-container {
+        display: none !important;
+    }
+
+    .main-navbar .menu-buttons {
+        display: none !important;
+    }
+}
+
+/* ----- Card is no longer a scroller ----- */
+.matCardStyle {
+    min-height: 100dvh;
+    overflow: visible;
+    scrollbar-width: none; // Firefox aesthetic (main scroller is .content-scroll)
+}
+
+/* ----- Fixed navbar: consistent height via CSS var ----- */
+:root {
+    --nav-h: 55px;
+}
+
+@media (min-width: 600px) {
+    :root {
+        --nav-h: 70px;
+    }
+}
+
+.main-navbar {
+    background: #000;
+    //height: var(--nav-h);
+    height: 70px;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 16px;
+    /* override Angular Material 14px base */
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.main-navbar .textFont {
+    margin-right: 8px;
+    /* instead of 12px */
+}
+
+/* Kill Bootstrap's container-fluid squeeze inside nav */
+/* Ensure nav container takes full width */
+// .main-navbar .container-fluid {
+//     width: 100% !important;
+//     max-width: 100% !important;
+//     flex: 1 1 auto !important;
+//     /* allow it to stretch */
+//     padding-left: 16px;
+//     /* adjust as you like */
+//     padding-right: 16px;
+//     margin: 0 !important;
+// }
+
+/* Remove Bootstrap row negative margins inside nav to prevent horizontal overflow */
+.nav-row {
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.main-navbar .col-4,
+.main-navbar .col-6,
+.main-navbar .col-2,
+.main-navbar .col-sm-2,
+.main-navbar .col-sm-9,
+.main-navbar .col-sm-1 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* ----- The ONLY vertical scroll area ----- */
+.content-scroll {
+    height: 100dvh;
+    padding-top: var(--nav-h);
+    /* keep content below fixed navbar */
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    /* block scroll chaining/rubber-band to body */
+    overscroll-behavior-x: none;
+    /* kill sideways bounce */
+    -webkit-overflow-scrolling: touch;
+    /* native momentum where supported */
+    touch-action: pan-y;
+    /* vertical only */
+}
+
+/* ----- List / menu visuals ----- */
 mat-list {
     cursor: pointer;
 }
 
-.matCardStyle {
-    min-height: 100vh;
-    scrollbar-width: none;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-}
+/* ----- Typography / buttons ----- */
+.textFont {
+    font-family: 'Q Light' !important;
+    color: #fff !important;
+    font-weight: 500;
+    font-size: clamp(1rem, 0.9vw + 0.9rem, 1.2rem);
+    line-height: 1.6;
+    text-align: center;
+    letter-spacing: 0.7px;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.9;
 
-.matCardStyle::-webkit-scrollbar {
-    display: none;
-}
+    &:hover {
+        opacity: 1;
+    }
 
-
-.matDrawerStyle {
-    background: #000;
-    color: #FFFFFF;
+    &.active {
+        opacity: 1;
+        font-weight: 700;
+        color: #fff;
+    }
 }
 
 .headerTxt {
     font-weight: 500;
     font-size: 20px;
     line-height: 24px;
-    color: #FFFFFF;
-}
-
-.textFont {
-    font-family: 'Q Light' !important;
-    color: #FFF !important;
-    font-weight: 400;
-    font-size: 1.10rem;
-    line-height: 33px;
-    text-align: center;
-    letter-spacing: 0.7px;
-    cursor: pointer;
-    transition: all 0.2s;
-    opacity: 0.8;
-}
-
-/* on hover */
-.textFont:hover {
-    opacity: 1;
-}
-
-/* ACTIVE MENU ITEM */
-.textFont.active {
-    opacity: 1;
-    font-weight: bolder;
-    color: #FFF;
+    color: #fff;
 }
 
 .selectedMenuStyle {
@@ -57,19 +157,52 @@ mat-list {
 }
 
 button:focus {
-    outline: none
+    outline: none;
+}
+
+.search-container {
+    margin-right: 15px;
+    width: 240px;
+}
+
+/* Wider on large screens */
+@media (min-width: 1200px) {
+    .search-container {
+        width: 280px;
+    }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .search-container {
+        width: 180px;
+    }
+}
+
+/* Hide on small mobile */
+@media (max-width: 576px) {
+    .search-container {
+        display: none;
+    }
+}
+
+/* ----- Search ----- */
+.search-input {
+    border-radius: 9px;
+    border: 1px solid #c5c5c5;
+    background: #fff;
 }
 
 .searchIcon {
     position: absolute;
     height: 27px;
     width: 27px;
-    float: right;
     top: 6px;
-    right: 35px;
+    right: 10px;
     cursor: pointer !important;
 }
 
+/* ----- Logo sizes ----- */
 .logoBig {
     height: 35px;
     width: auto;
@@ -80,4 +213,12 @@ button:focus {
     height: 32px;
     width: auto;
     object-fit: contain;
+}
+
+/* ----- Menu icon ----- */
+.menu-icon {
+    cursor: pointer;
+    color: #fff;
+    vertical-align: middle;
+    font-size: 28px;
 }

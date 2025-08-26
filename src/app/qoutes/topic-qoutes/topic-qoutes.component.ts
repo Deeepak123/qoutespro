@@ -23,6 +23,11 @@ export class TopicQoutesComponent implements OnInit {
   introTextDisplay: any
   isLoading = false;
 
+  // ADD these fields
+  private scrollEl?: HTMLElement;
+  private readonly bottomThreshold = 150;
+  private readonly scrollHandler = () => this.onScroll();
+
   private subscription: Subscription = new Subscription();
 
 
@@ -37,6 +42,15 @@ export class TopicQoutesComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document
   ) { }
 
+
+  // ADD this lifecycle hook
+  ngAfterViewInit(): void {
+    this.scrollEl = this.document.getElementById('contentScroll') as HTMLElement;
+    if (this.scrollEl) {
+      this.scrollEl.addEventListener('scroll', this.scrollHandler, { passive: true });
+    }
+  }
+
   ngOnInit(): void {
     this.activeRoute.params.subscribe(params => {
       window.scroll(0, 0);
@@ -48,6 +62,11 @@ export class TopicQoutesComponent implements OnInit {
         this.hasMore = true;
         this.allLoaded = false;        // <— important
         this.qoutesList = [];
+
+        // ADD this tiny reset (inside the params subscription)
+        setTimeout(() => {
+          if (this.scrollEl) this.scrollEl.scrollTop = 0;
+        });
 
         //SEO
         // 1. <title> tag
@@ -128,21 +147,6 @@ export class TopicQoutesComponent implements OnInit {
       item.qoutes = tempArr[0];
       item.authorName = tempArr[1];
     });
-  }
-
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    if (!this.hasMore || this.isLoading) {
-      return;
-    }
-
-    const pos = window.pageYOffset + window.innerHeight;
-    const max = document.documentElement.scrollHeight;
-
-    if (pos >= max - 150) {
-      this.page += 1;
-      this.getTopicQuotes(this.activeRoute.snapshot.params.topicId);
-    }
   }
 
   selectedAuthor = (item: any) => {
@@ -442,8 +446,23 @@ export class TopicQoutesComponent implements OnInit {
     return intros[topic] || "Discover inspiring quotes on this topic.";
   }
 
+  // ADD this method
+  private onScroll(): void {
+    if (!this.hasMore || this.isLoading || !this.scrollEl) return;
+
+    const pos = this.scrollEl.scrollTop + this.scrollEl.clientHeight;
+    const max = this.scrollEl.scrollHeight;
+
+    if (pos >= max - this.bottomThreshold) {
+      this.page += 1;
+      this.getTopicQuotes(+this.activeRoute.snapshot.params['topicId']);
+    }
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    if (this.scrollEl) {
+      this.scrollEl.removeEventListener('scroll', this.scrollHandler);
+    }
   }
 }

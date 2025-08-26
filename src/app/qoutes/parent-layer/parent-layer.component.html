@@ -1,71 +1,72 @@
-<div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
-    <div class="row">
+<div class="container-fluid p-0">
+    <div class="row no-gutters">
         <div class="col-12">
-            <mat-drawer-container>
-                <mat-drawer #drawer mode="over" position="end" [ngClass.lt-sm]="'col-12'" [ngClass.gt-sm]="'col-sm-4'"
-                    [ngClass.sm]="'col-sm-6'" class="matDrawerStyle" style="overflow: hidden;">
+            <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
+                <!-- Drawer: remove Bootstrap grid width classes; use CSS width -->
+                <mat-drawer #drawer mode="over" position="end" class="matDrawerStyle">
                     <app-menu-list [drawer]="drawer"></app-menu-list>
                 </mat-drawer>
+
                 <mat-drawer-content>
-                    <mat-card class="mat-elevation-z6 col matCardStyle">
-                        <nav style="background: black;height: 55px;" [ngStyle.gt-sm]="{'height':'70px'}" class=" navbar fixed-top navbar-light custom-container col-12 col-sm-12 col-md-12 col-xs-12
-                            primary-txt-color">
-                            <div class="col">
-                                <div class="row">
-                                    <!-- LOGO -->
-                                    <div class="col-sm-2 col-4">
-                                        <img (click)="routTo('/')" class="img-fluid" [ngClass.gt-sm]="'logoBig'"
-                                            [ngClass.sm]="'logoSmall'" [ngClass.lt-sm]="'logoSmall'"
-                                            src="../../../assets/images/iadorequotes-logo-transparent-master.png"
-                                            style="cursor: pointer;">
+                    <!-- Remove Bootstrap .col on card; keep it simple and solid -->
+                    <mat-card class="mat-elevation-z6 matCardStyle">
+                        <!-- Fixed navbar; no inline styles -->
+                        <nav class="navbar fixed-top navbar-light primary-txt-color main-navbar">
+                            <div class="row nav-row w-100 m-0">
+
+                                <!-- LOGO (left) -->
+                                <div class="col-4 col-sm-2 d-flex align-items-center">
+                                    <img (click)="routTo('/')" class="img-fluid logoSmall d-sm-none"
+                                        src="../../../assets/images/iadorequotes-logo-transparent-master.png"
+                                        alt="I Adore Quotes Logo" style="cursor:pointer" />
+                                    <img (click)="routTo('/')" class="img-fluid logoBig d-none d-sm-block"
+                                        src="../../../assets/images/iadorequotes-logo-transparent-master.png"
+                                        alt="I Adore Quotes Logo" style="cursor:pointer" />
+                                </div>
+
+                                <!-- MIDDLE MENU (center) -->
+                                <div class="col-4 col-sm-6 d-flex align-items-center ">
+                                    <div
+                                        class="d-none d-sm-flex align-items-center w-100 justify-content-start menu-buttons">
+                                        <button mat-button class="textFont" [ngClass]="{ 'active': router.url === '/' }"
+                                            (click)="routTo('/')">Home</button>
+                                        <button mat-button class="textFont"
+                                            [ngClass]="{ 'active': router.url === '/authors' }"
+                                            (click)="routTo('/authors')">Authors</button>
+                                        <button mat-button class="textFont"
+                                            [ngClass]="{ 'active': router.url === '/topics' }"
+                                            (click)="routTo('/topics')">Topics</button>
+                                        <button mat-button class="textFont"
+                                            [ngClass]="{ 'active': router.url === '/collections' }"
+                                            (click)="routTo('/collections')">🔥Trending Quotes</button>
                                     </div>
-                                    <!-- MIDDLE -->
-                                    <div class="col-sm-9 col-6 primary-txt-color no-padding"
-                                        style="white-space:pre-line;">
-                                        <div fxHide.lt-sm="true">
-                                            <button [ngClass]="{ 'active': router.url === '/' }" (click)="routTo('/')"
-                                                mat-button class="textFont home">Home</button>
-                                            <button [ngClass]="{ 'active': router.url === '/authors' }"
-                                                (click)="routTo('/authors')" mat-button
-                                                class="textFont authors">Authors</button>
-                                            <button [ngClass]="{ 'active': router.url === '/topics' }"
-                                                (click)="routTo('/topics')" mat-button
-                                                class="textFont topics">Topics</button>
+                                </div>
 
-                                            <button [ngClass]="{ 'active': router.url === '/collections' }"
-                                                (click)="routTo('/collections')" mat-button
-                                                class="textFont topics">🔥Trending Quotes</button>
-
-                                            <!-- SEARCH UI -->
-                                            <div fxHide.sm="true" style="width:300px;float: right;">
-                                                <input [(ngModel)]="searchedKeyword" placeholder="Search..."
-                                                    name="globalSearch" autocomplete="off" maxlength="30"
-                                                    style="border-radius: 9px;border:1px solid #c5c5c5; background: white;"
-                                                    type="text" class="form-control" (keydown.enter)="searchGlobal()">
-                                                <img *ngIf="searchedKeyword.length > 2" (click)="searchGlobal()"
-                                                    src="../../../assets/images/searchIcon.svg" class="searchIcon">
-                                            </div>
+                                <!-- SEARCH + MENU (right) -->
+                                <div class="col-4 col-sm-4 d-flex justify-content-end align-items-center">
+                                    <!-- Search -->
+                                    <div class="search-container d-none d-sm-block">
+                                        <div class="position-relative">
+                                            <input [(ngModel)]="searchedKeyword" placeholder="Search..."
+                                                name="globalSearch" autocomplete="off" maxlength="30" type="text"
+                                                class="form-control search-input" (keydown.enter)="searchGlobal()">
+                                            <img *ngIf="(searchedKeyword?.length ?? 0) > 2" (click)="searchGlobal()"
+                                                src="../../../assets/images/searchIcon.svg" class="searchIcon"
+                                                alt="Search">
                                         </div>
                                     </div>
-                                    <!-- MENU -->
-                                    <div class="col-sm-1 col-2 text-right">
-                                        <span class="material-icons"
-                                            style="cursor: pointer;color: white;vertical-align: -webkit-baseline-middle;"
-                                            (click)="openToggle()">
-                                            menu
-                                        </span>
-                                    </div>
+
+                                    <!-- Hamburger -->
+                                    <span class="material-icons menu-icon ms-2" (click)="openToggle()">menu</span>
                                 </div>
+
                             </div>
                         </nav>
-                        <div fxLayout="row">
-                            <!-- <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div> -->
-                            <div fxFlex>
-                                <div>
-                                    <router-outlet></router-outlet>
-                                </div>
-                            </div>
-                            <!-- <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div> -->
+
+
+                        <!-- Single, stable scroll container -->
+                        <div class="content-scroll" id="contentScroll">
+                            <router-outlet></router-outlet>
                         </div>
                     </mat-card>
                 </mat-drawer-content>
