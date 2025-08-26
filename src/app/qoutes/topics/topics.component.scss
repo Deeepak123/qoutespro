@@ -7,6 +7,7 @@
     line-height: 33px;
     text-align: center;
     word-wrap: break-word;
+    cursor: default;
 }
 
 /* === TOPIC CARD TEXT === */
@@ -40,16 +41,17 @@
 
 /* Emoji styling */
 .groupEmoji {
-    font-size: 1rem;
-    line-height: 1;
+    font-size: 1.1rem;
+    // line-height: 1;
 }
 
 /* Group name styling */
 .groupTitle {
     font-family: 'Q ExBold';
-    font-size: 1rem;
+    font-size: 1.1rem;
+    // color: #5a5a5a;
+    color: #222;
     font-weight: 700;
-    color: #5a5a5a;
     text-align: center;
 }
 

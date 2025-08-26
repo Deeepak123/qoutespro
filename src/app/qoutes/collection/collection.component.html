@@ -18,13 +18,13 @@
                     <!-- {{ introText }} -->
 
 
-                    <p class="textFont" style="margin-top: 15px;">
+                    <p class="textFont4" [ngStyle.xs]="{'font-size':'1.05rem'}" style="margin-top: 15px;">
                         {{ pageIntro }}
                     </p>
 
 
                     <!-- CONTENT -->
-                    <div fxLayout="row" *ngFor="let item of qoutesList;let index=index" style="margin-top:5px;">
+                    <div fxLayout="row" *ngFor="let item of qoutesList;let index=index" style="margin-top:0px;">
                         <div fxFlex style="display: flex;justify-content: center;">
                             <mat-card [ngStyle.xs]="{'width': '-webkit-fill-available'}" class="cardStyle"
                                 style="margin-top: 35px;">

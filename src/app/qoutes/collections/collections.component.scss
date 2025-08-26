@@ -7,12 +7,14 @@
     line-height: 33px;
     text-align: center;
     word-wrap: break-word;
+    cursor: default;
 }
 
 .textHeader2 {
     font-family: 'Q ExBold';
-    color: #5a5a5a !important;
-    font-weight: bold;
+    //color: #5a5a5a !important;
+    color: #222;
+    font-weight: 700;
     font-size: 1.2rem;
     line-height: 33px;
     text-align: center;
@@ -20,13 +22,17 @@
 }
 
 .textFont {
-    font-family: 'Q Medium';
+    font-family: 'Q Regular';
     color: #5a5a5a;
     font-weight: 500;
-    font-size: 1.10rem;
-    line-height: 33px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin: 0 auto 2rem;
     text-align: center;
     margin-top: 6px;
+    word-wrap: break-word;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .textFont2 {

@@ -6,15 +6,16 @@
                     <!-- HEADER -->
                     <div fxLayout="row">
                         <div fxFlex>
-                            <div class="textHeader" [ngStyle.xs]="{'font-size':'1.30rem'}" fxLayoutAlign="center center"
-                                style="cursor:default;">
+                            <div class="textHeader" [ngStyle.xs]="{'font-size':'1.30rem'}"
+                                fxLayoutAlign="center center">
                                 Best & Trending Quote Collections
                             </div>
                         </div>
                     </div>
 
                     <!-- INTRO -->
-                    <p class="textFont" style="margin-top:15px; text-align:center;">
+                    <p class="textFont" [ngStyle.xs]="{'font-size':'1.05rem'}"
+                        style="margin-top:15px; text-align:center;">
                         Browse handpicked quote collections by topic—best of all time, trending now, short captions,
                         romantic, motivational, and more.
                     </p>
@@ -43,3 +44,5 @@
     </div>
 </div>
 <div style="height:100px;"></div>
+<!-- FOOTER -->
+<app-footer></app-footer>
