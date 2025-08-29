@@ -24,6 +24,8 @@ import { AboutComponent } from './about/about.component';
 import { TermsComponent } from './terms/terms.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { CollectionComponent } from './collection/collection.component';
+import { ImageModelComponent } from './image-model/image-model.component';
+
 @NgModule({
   declarations: [
     ParentLayerComponent,
@@ -45,6 +47,7 @@ import { CollectionComponent } from './collection/collection.component';
     TermsComponent,
     CollectionsComponent,
     CollectionComponent,
+    ImageModelComponent,
   ],
   imports: [
     CommonModule,

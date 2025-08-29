@@ -1,0 +1,36 @@
+<!-- image-modal.component.html -->
+<div class="wrap">
+    <div class="header">
+        <div class="title">Image preview</div>
+        <div class="spacer"></div>
+        <button class="chip" (click)="toggleStory()">
+            {{ mode === '1080' ? 'Story 1080×1920' : 'Square 1080×1080' }}
+        </button>
+        <button class="icon-btn" aria-label="Close" (click)="close()">✕</button>
+    </div>
+
+    <div class="big">
+        <div class="spinner" *ngIf="loading">Loading…</div>
+        <img *ngIf="!loading" [src]="bigUrl" alt="preview" />
+        <!-- optional: overlay your quote text via CSS in your card design; here we only preview BG -->
+    </div>
+
+    <!-- <div class="thumbs">
+        <button *ngFor="let t of thumbs; index as i" class="thumb" [class.active]="isActive(i)" (click)="onPick(i)"
+            (mouseenter)="/* could prewarm HD here if you want */">
+            <img [src]="t" loading="lazy" decoding="async" alt="thumb">
+        </button>
+    </div> -->
+
+    <div class="thumbs">
+        <button *ngFor="let t of thumbs; index as i" class="thumb" [class.active]="isActive(i)" (click)="onPick(i)"
+            (mouseenter)="prewarm(i)" (mouseleave)="cancelPrewarm(i)" (focus)="prewarm(i)" (blur)="cancelPrewarm(i)">
+            <img [src]="t" loading="lazy" decoding="async" alt="thumb">
+        </button>
+    </div>
+
+    <div class="actions">
+        <button class="btn" (click)="download()">Download</button>
+        <button class="btn primary" (click)="share()">Share</button>
+    </div>
+</div>

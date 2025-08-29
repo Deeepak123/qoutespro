@@ -7,6 +7,10 @@ import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/utility/api.service';
 import { humanizeSlug } from '../collections.data';
 import { resolveFromCollections } from '../collections.resolver';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageModelComponent } from '../image-model/image-model.component';
+import { MatDialog } from '@angular/material/dialog';
 
 type QuoteItem = { qoutes: string; authorId?: number; authorName?: string; istopHun?: 'Y' | 'N' };
 
@@ -50,6 +54,9 @@ export class CollectionComponent implements OnInit, AfterViewInit, OnDestroy {
     private titleSrv: Title,
     private metaSrv: Meta,
     private renderer: Renderer2,
+    private clipboard: Clipboard,
+    private snack: MatSnackBar,
+    private dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
@@ -446,6 +453,27 @@ export class CollectionComponent implements OnInit, AfterViewInit, OnDestroy {
     if (pos >= max - this.bottomThreshold) {
       this.getCollectionQuotes();
     }
+  }
+
+  copyQuote(item: any) {
+    const author = item.authorName ? `— ${item.authorName}` : '';
+    const base = this.document?.defaultView?.location?.origin || 'https://www.iadorequotes.com';
+    //const url = item?.id ? `${base}/quote/${item.id}` : base;
+    const url = "https://iadorequotes.com";
+
+    // Add your brand for organic attribution
+    const text = `"${item.qoutes}" ${author}\n${url}`;
+
+    this.clipboard.copy(text);
+    this.snack.open('Quote copied', 'OK', { duration: 2000 });
+  }
+
+  openImageModel(quote: string, author?: string) {
+    const safeAuthor = author ?? 'Unknown';
+    this.dialog.open(ImageModelComponent, {
+      data: { quote, safeAuthor },
+      panelClass: 'image-model',
+    });
   }
 
 
