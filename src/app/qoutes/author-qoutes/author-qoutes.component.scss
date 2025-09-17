@@ -1,10 +1,15 @@
 .cardStyle {
-    width: 450px;
+    width: 100%;
+    /* take full available width */
+    max-width: 450px;
+    /* but don’t stretch beyond 450px */
+    margin: auto;
+    /* center align in column */
 }
 
 .cardStyle1 {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    // padding-left: 16px !important;
+    // padding-right: 16px !important;
 }
 
 .textHeader {
@@ -63,4 +68,30 @@
 .authorCard:hover {
     box-shadow: 12px 14px 25px rgba(0, 0, 0, 0.4);
     transform: scale(1.02);
+}
+
+.topRightBtn {
+    position: absolute;
+    top: -2px;
+    right: 5px;
+}
+
+.topRightBtn1 {
+    position: absolute;
+    top: -2px;
+    right: 65px;
+    // right: 5px;
+}
+
+.textFont4 {
+    font-family: 'Q Regular';
+    color: #5a5a5a;
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin: 0 auto 1rem;
+    text-align: center;
+    word-wrap: break-word;
+    padding-left: 70px;
+    padding-right: 70px;
 }

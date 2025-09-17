@@ -11,6 +11,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImageModelComponent } from '../image-model/image-model.component';
 import { MatDialog } from '@angular/material/dialog';
+import { filter } from 'rxjs/operators';
 
 type QuoteItem = { qoutes: string; authorId?: number; authorName?: string; istopHun?: 'Y' | 'N' };
 
@@ -105,7 +106,7 @@ export class CollectionComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pageIntro = this.getIntro(this.currentTopicId);
 
         // SEO
-        this.titleSrv.setTitle(`${this.pageH1} – IAdoreQuotes`); //set whole name
+        this.titleSrv.setTitle(`${this.pageH1} – iAdoreQuotes`); //set whole name
         const desc = this.getMetaDescription(this.currentTopicId); //set it one by one
         this.metaSrv.updateTag({ name: 'description', content: desc }); //set desc
         this.setCanonicalSimple(typeof window !== 'undefined' ? window.location.href : '');
@@ -192,7 +193,7 @@ export class CollectionComponent implements OnInit, AfterViewInit, OnDestroy {
       "@type": "Article",
       "headline": headline,
       "description": description,
-      "author": { "@type": "Organization", "name": "IAdoreQuotes" },
+      "author": { "@type": "Organization", "name": "iAdoreQuotes" },
       "url": opts.url ?? (typeof window !== 'undefined' ? window.location.href : '')
     };
 
@@ -469,11 +470,22 @@ export class CollectionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openImageModel(quote: string, author?: string) {
-    const safeAuthor = author ?? 'Unknown';
-    this.dialog.open(ImageModelComponent, {
-      data: { quote, safeAuthor },
-      panelClass: 'image-model',
+    console.log(author);
+    author = author ?? 'Unknown';
+    const currentTopicId = this.currentTopicId;
+    const dialogRef = this.dialog.open(ImageModelComponent, {
+      data: { quote, author, currentTopicId },
+      panelClass: 'image-modal',          // <-- use this exact class
+      backdropClass: 'custom-backdrop',
+      width: 'min(90vw, 600px)',
+      maxWidth: '600px',
+      disableClose: true,
+      autoFocus: false
     });
+
+    dialogRef.keydownEvents()
+      .pipe(filter(e => e.key === 'Escape'))
+      .subscribe(() => dialogRef.close());
   }
 
 

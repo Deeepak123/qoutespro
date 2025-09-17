@@ -1,10 +1,15 @@
 .cardStyle {
-    width: 450px;
+    width: 100%;
+    /* take full available width */
+    max-width: 450px;
+    /* but don’t stretch beyond 450px */
+    margin: auto;
+    /* center align in column */
 }
 
 .cardStyle1 {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    // padding-left: 16px !important;
+    // padding-right: 16px !important;
 }
 
 .authorName:hover {
@@ -54,8 +59,8 @@
     margin: 0 auto 1rem;
     text-align: center;
     word-wrap: break-word;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 70px;
+    padding-right: 70px;
 }
 
 
@@ -96,6 +101,6 @@
 .topRightBtn1 {
     position: absolute;
     top: -2px;
-    // right: 65px;
-    right: 5px;
+    right: 65px;
+    // right: 5px;
 }

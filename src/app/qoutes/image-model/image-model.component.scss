@@ -1,128 +1,482 @@
-/* image-modal.component.css */
+/* Container */
 .wrap {
-    width: min(96vw, 860px);
-    max-height: 92vh;
+    width: 100%;
+    max-width: 600px;
+    margin: 0;
+    max-height: calc(100vh - 64px);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box
 }
 
+.wrap * {
+    box-sizing: border-box
+}
+
+/* Header */
 .header {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    padding: 12px 12px 0
 }
 
 .title {
-    font-weight: 600;
-    font-size: 16px;
+    color: #222;
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    text-align: center
 }
 
-.spacer {
-    flex: 1;
+::ng-deep .title {
+    font-family: 'Q ExBold' !important
 }
 
+/* Close button */
 .icon-btn {
-    border: none;
-    background: transparent;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 6px 8px;
-}
-
-.chip {
-    border: 1px solid rgba(255, 255, 255, .18);
-    background: #1f1f1f;
-    color: #fff;
-    padding: 6px 10px;
+    --size: 36px;
+    position: absolute;
+    right: 8px;
+    top: 6px;
+    width: var(--size);
+    height: var(--size);
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(0, 0, 0, .15);
     border-radius: 999px;
+    background: rgba(0, 0, 0, .6);
+    color: #fff;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background .2s ease, transform .1s ease, box-shadow .18s ease
 }
 
+.icon-btn:hover {
+    background: rgba(0, 0, 0, .8)
+}
+
+.icon-btn:active {
+    transform: scale(.96)
+}
+
+.icon-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(59, 130, 246, .9)
+}
+
+.icon-btn svg {
+    width: 18px;
+    height: 18px;
+    pointer-events: none
+}
+
+/* Spinner */
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #aaa;
+    font-size: 16px;
+    font-weight: 500
+}
+
+/* Preview box */
 .big {
     position: relative;
-    margin: 12px 0;
+    margin: 20px 12px 10px;
     background: #0f0f0f;
     border-radius: 12px;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 320px;
+    display: block;
+    max-height: 360px;
+    overflow: hidden
 }
 
-.big img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
+.big.square {
+    aspect-ratio: 1/1
 }
 
-.spinner {
-    color: #aaa;
-    padding: 40px 0;
+.big.story {
+    aspect-ratio: 9/16
 }
 
+/* Thumbnails */
 .thumbs {
     display: flex;
+    justify-content: center;
     gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 2px;
-    margin: 8px 0 12px;
-    border-top: 1px dashed rgba(255, 255, 255, .08);
-    padding-top: 10px;
+    margin: 0 12px;
+    padding: 10px 0 0;
+    border-top: 1px dashed rgba(0, 0, 0, .08);
+    position: relative;
+    z-index: 3
 }
 
 .thumb {
-    border: 2px solid transparent;
-    border-radius: 10px;
-    background: none;
+    appearance: none;
+    -webkit-appearance: none;
     padding: 0;
+    margin: 0;
+    line-height: 0;
+    font-size: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    border: 0 solid transparent;
+    overflow: hidden;
+    background: #0000;
+    display: block;
     cursor: pointer;
-    flex: 0 0 auto;
-    width: 84px;
-    height: 84px;
-    display: grid;
-    place-items: center;
+    position: relative;
+    flex: 0 0 auto
 }
 
 .thumb img {
-    width: 100%;
-    height: 100%;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: inherit
 }
 
 .thumb.active {
-    border-color: #6ea8fe;
+    border-color: #3b82f6
 }
 
+.thumb.active::after {
+    content: "✓";
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .3)
+}
+
+/* Actions */
 .actions {
     display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 12px
 }
 
+/* Buttons */
 .btn {
-    border: 1px solid #2c2c2c;
-    padding: 8px 12px;
-    border-radius: 10px;
-    background: #1d1d1d;
-    color: #fff;
+    --btn-h: 44px;
+    --btn-r: 12px;
+    --btn-px: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: var(--btn-h);
+    padding: 0 var(--btn-px);
+    border-radius: var(--btn-r);
+    border: 1px solid transparent;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: .2px;
     cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .06s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease
 }
 
-.btn.primary {
+.btn svg {
+    width: 22px !important;
+    height: 22px !important
+}
+
+.btn-primary {
     background: #3b82f6;
     border-color: #3b82f6;
     color: #fff;
+    box-shadow: 0 6px 14px rgba(59, 130, 246, .28)
 }
 
-@media (max-width: 600px) {
+.btn-primary:hover {
+    box-shadow: 0 8px 18px rgba(59, 130, 246, .35);
+    filter: saturate(1.05)
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, .28)
+}
+
+.btn-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(59, 130, 246, .9)
+}
+
+.btn-dark {
+    background: #1f1f1f;
+    border-color: #2b2b2b;
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .22)
+}
+
+.btn-dark:hover {
+    background: #232323;
+    border-color: #343434;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .28)
+}
+
+.btn-dark:active {
+    transform: translateY(1px)
+}
+
+.btn-dark:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(0, 0, 0, .55)
+}
+
+.btn[disabled] {
+    opacity: .6;
+    cursor: not-allowed;
+    box-shadow: none
+}
+
+/* Mobile tweaks */
+@media (max-width:600px) {
     .wrap {
-        width: 96vw;
+        max-height: calc(100vh - 48px)
+    }
+
+    .big {
+        max-height: 300px;
+        margin: 20px 10px 10px
+    }
+
+    .thumbs {
+        margin: 0 10px
+    }
+
+    .actions {
+        margin: 14px 10px 12px
     }
 
     .thumb {
-        width: 64px;
-        height: 64px;
+        width: 56px;
+        height: 56px
+    }
+
+    .btn {
+        --btn-h: 46px;
+        --btn-px: 16px
+    }
+
+    .btn svg {
+        width: 20px;
+        height: 20px
+    }
+}
+
+/* Soft vignette for readability */
+.big::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, .30) 0%, rgba(0, 0, 0, .10) 30%, rgba(0, 0, 0, .10) 60%, rgba(0, 0, 0, .35) 100%)
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(16px, 4vw, 28px);
+    pointer-events: none
+}
+
+.overlay-center {
+    margin: auto 0;
+    width: min(88%, 680px);
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 22px rgba(0, 0, 0, .65)
+}
+
+.quote {
+    margin: 0 0 .6em;
+    font-weight: 800;
+    font-family: 'Q ExBold', ui-serif, Georgia, "Times New Roman", serif;
+    line-height: 1.25;
+    letter-spacing: .2px;
+    font-size: clamp(20px, 3.4vw, 40px);
+    text-wrap: balance;
+    overflow-wrap: anywhere
+}
+
+.author {
+    font-weight: 700;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    opacity: .85;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    font-size: clamp(10px, 1vw, 12px);
+    text-align: center
+}
+
+.brand {
+    width: 100%;
+    text-align: center;
+    color: #ffffffd9;
+    font-weight: 700;
+    text-transform: none;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, .45);
+    letter-spacing: .18em;
+    font-size: clamp(12px, 1.8vw, 16px)
+}
+
+.big.story .overlay {
+    padding: clamp(18px, 5vw, 36px)
+}
+
+.quote-lg {
+    font-size: clamp(22px, 5.2vw, 42px)
+}
+
+.quote-md {
+    font-size: clamp(18px, 4.5vw, 34px)
+}
+
+.quote-sm {
+    font-size: clamp(16px, 4.0vw, 28px)
+}
+
+/* Capture area & layers */
+.big.capture {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    isolation: isolate;
+    z-index: 0
+}
+
+.big .bg {
+    position: absolute;
+    inset: 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: translateZ(0);
+    z-index: -2
+}
+
+.big .darken {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .25);
+    z-index: -1;
+    pointer-events: none
+}
+
+.big .tint {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, .30) 0%, rgba(0, 0, 0, .10) 30%, rgba(0, 0, 0, .10) 60%, rgba(0, 0, 0, .35) 100%)
+}
+
+.big .overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none
+}
+
+/* Hide tooltips during capture */
+.no-tooltips .mat-tooltip,
+.no-tooltips [role="tooltip"],
+.no-tooltips .tooltip,
+.no-tooltips .mdc-tooltip,
+.no-tooltips .cdk-overlay-container,
+.no-tooltips .tippy-box {
+    display: none !important;
+    opacity: 0 !important
+}
+
+/* When exporting, make fonts bigger */
+.exporting .quote-lg {
+    font-size: clamp(28px, 6vw, 56px) !important;
+}
+
+.exporting .quote-md {
+    font-size: clamp(24px, 5.4vw, 44px) !important;
+}
+
+.exporting .quote-sm {
+    font-size: clamp(20px, 4.8vw, 34px) !important;
+}
+
+.exporting .author {
+    font-size: clamp(15px, 1.8vw, 19px) !important;
+    letter-spacing: 0.2em !important;
+}
+
+.exporting .brand {
+    font-size: 28px !important;
+    letter-spacing: 0.09em !important;
+    margin-bottom: 20px !important;
+}
+
+
+// REEEL VIEW
+.exportingreel .quote-lg {
+    font-size: 80px !important;
+}
+
+.exportingreel .quote-md {
+    font-size: 65px !important;
+}
+
+.exportingreel .quote-sm {
+    font-size: 50px !important;
+}
+
+.exportingreel .author {
+    font-size: 21px !important;
+    letter-spacing: 0.2em !important;
+}
+
+.exportingreel .brand {
+    font-size: 37px !important;
+    letter-spacing: 0.09em !important;
+    margin-bottom: 30px !important;
+}
+
+
+
+/* Very narrow phones */
+@media (max-width:380px) {
+    .quote-lg {
+        font-size: clamp(20px, 5.6vw, 34px)
+    }
+
+    .quote-md {
+        font-size: clamp(17px, 5.0vw, 30px)
+    }
+
+    .quote-sm {
+        font-size: clamp(15px, 4.8vw, 26px)
     }
 }

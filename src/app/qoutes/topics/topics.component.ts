@@ -15,6 +15,7 @@ export class TopicsComponent implements OnInit {
   introText: string = `This page lists all quote topics and categories, including quote categories list, all inspirational quote topics, list of quote topics, browse quote themes and explore quote subjects.`;
 
   searchText: string = "";
+  isDataLoaded: boolean = false;
 
   // replaced flat list with grouped list
   groups: Array<{
@@ -26,6 +27,7 @@ export class TopicsComponent implements OnInit {
 
   private subscription: Subscription = new Subscription();
   @Input() fromHome: boolean = false;
+  @Input() hideFooter = false;
 
   constructor(
     private router: Router,
@@ -41,10 +43,10 @@ export class TopicsComponent implements OnInit {
     this.getTopicGroups();
 
     if (!this.fromHome) {
-      this.commonSer.updateStatsCount();
+      // this.commonSer.updateStatsCount();
 
       // SEO
-      this.titleService.setTitle('Quote Topics – Explore All Categories | IAdoreQuotes');
+      this.titleService.setTitle('Quote Topics – Explore All Categories | iAdoreQuotes');
       this.metaService.updateTag({
         name: 'description',
         content: 'Browse a complete list of quote topics including love, motivational, life, success, happiness, forgiveness and more. Explore all quote categories to find inspiration, including quote categories list, list of quote topics, all inspirational quote topics, browse quote themes, and explore quote subjects.'
@@ -74,6 +76,7 @@ export class TopicsComponent implements OnInit {
   getTopicGroups = () => {
     const sub = this.apiSer.getTopicsNew().subscribe({
       next: (val: any) => {
+        this.isDataLoaded = true;
         // expecting the API to return: [{group_id, group_name, emoji, topics:[{id,name},...]}, ...]
         this.groups = Array.isArray(val) ? val : [];
       },
@@ -83,7 +86,7 @@ export class TopicsComponent implements OnInit {
   }
 
   // click handler works with {id, name}
-  selectedTopic = (t: { id: number; name: string }) => {
+  selectedTopic = (t: { id: number; name: string; intro: string }) => {
     this.searchText = "";
 
     let topicId = t.id;

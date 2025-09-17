@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "qoutespro-9b21e"
-  }
+    "default": "quotes-511c3"
+  },
+  "targets": {},
+  "etags": {}
 }

@@ -37,7 +37,7 @@ export class Top100Component implements OnInit {
 
     //SEO
     // Title + Meta
-    this.titleService.setTitle('Top 100 Quotes – IAdoreQuotes');
+    this.titleService.setTitle('Top 100 Quotes – iAdoreQuotes');
     this.metaService.updateTag({
       name: 'description',
       content: 'Discover the top 100 most inspiring, motivational, life and love quotes from famous authors. Updated daily with top inspirational quotes, top motivational quotes, best famous quotes, most popular quotes and top quotes of all time.'
@@ -51,9 +51,10 @@ export class Top100Component implements OnInit {
       "description": "Discover the top 100 most inspiring, motivational, life and love quotes from famous authors. Updated daily with top inspirational quotes, top motivational quotes, best famous quotes, most popular quotes and top quotes of all time.",
       "author": {
         "@type": "Person",
-        "name": "IAdoreQuotes"
+        "name": "iAdoreQuotes"
       },
-      "datePublished": new Date().toISOString().split('T')[0],
+      "datePublished": '2025-08-01',
+      "dateModified": '2025-09-06',
       "url": window.location.href
     };
 
@@ -67,7 +68,7 @@ export class Top100Component implements OnInit {
 
 
     this.getTop100();
-    this.commonSer.updateStatsCount();
+    // this.commonSer.updateStatsCount();
   }
 
   @HostListener('window:scroll', [])

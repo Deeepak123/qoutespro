@@ -1,5 +1,15 @@
 .cardStyle {
-    width: 450px;
+    width: 100%;
+    /* take full available width */
+    max-width: 450px;
+    /* but don’t stretch beyond 450px */
+    margin: auto;
+    /* center align in column */
+}
+
+.cardStyle1 {
+    // padding-left: 16px !important;
+    // padding-right: 16px !important;
 }
 
 .textHeader {

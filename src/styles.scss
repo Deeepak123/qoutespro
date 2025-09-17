@@ -66,8 +66,27 @@ body {
     background-color: #c7c2c2;
 }
 
-.image-model .mat-mdc-dialog-container .mdc-dialog__surface {
+/* Dialog surface & content must not add padding/scrollbars */
+.image-modal .mdc-dialog__surface {
     background: #121212;
     color: #fff;
     border-radius: 16px;
+    overflow: hidden;
+}
+
+/* both selectors cover different Angular Material builds */
+.image-modal .mdc-dialog__content,
+.image-modal .mat-mdc-dialog-content {
+    padding: 0 !important;
+    overflow: hidden !important;
+    display: block;
+    /* ensures the content spans full width */
+}
+
+/* Gray background for modal overlay */
+.custom-backdrop {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    /* darker gray, 60% opacity */
+    backdrop-filter: blur(2px);
+    /* subtle blur (optional, modern look) */
 }

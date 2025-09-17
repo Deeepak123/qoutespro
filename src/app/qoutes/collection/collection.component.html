@@ -1,7 +1,7 @@
 <div fxLayout="column" [ngStyle.gt-sm]="{'margin-top':'13vh'}" style="margin-top:8vh;">
     <div fxLayout="row">
         <!-- FOR LEFT GAP -->
-        <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div>
+        <!-- <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div> -->
         <div fxFlex>
             <div fxLayout="row" style="margin-top: 3vh">
                 <div fxFlex>
@@ -18,44 +18,49 @@
                     <!-- {{ introText }} -->
 
 
-                    <p class="textFont4" [ngStyle.xs]="{'font-size':'1.05rem'}" style="margin-top: 15px;">
+                    <p class="textFont4"
+                        [ngStyle.xs]="{'font-size':'1.05rem', 'padding-left':'30px', 'padding-right':'30px'}"
+                        style="margin-top: 15px;">
                         {{ pageIntro }}
                     </p>
 
 
                     <!-- CONTENT -->
-                    <div class="cardStyle1" fxLayout="row" *ngFor="let item of qoutesList;let index=index"
-                        style="margin-top:0px;">
-                        <div fxFlex style="display: flex;justify-content: center;">
-                            <mat-card [ngStyle.xs]="{'width': '-webkit-fill-available'}" class="cardStyle"
-                                style="margin-top: 35px;">
-                                <mat-card-content style="padding-top: 5px;">
-                                    <img style="width: 40px;height: 25px;margin-top:9px;"
-                                        src="../../../assets/images/doubleQuote.png">
-                                    <button mat-icon-button matTooltip="Copy Quote" class="topRightBtn1"
-                                        (click)="copyQuote(item)">
-                                        <mat-icon>content_copy</mat-icon>
-                                    </button>
-                                    <!-- <button mat-icon-button matTooltip="View Quote as Image" class="topRightBtn"
-                                        (click)="openImageModel(item.qoutes, item.authorName ?? 'Unknown')">
-                                        <mat-icon>photo_library</mat-icon>
-                                    </button> -->
-                                    <p class="textFont" style="margin-top: 20px;">
-                                        {{item.qoutes}}
-                                    </p>
-                                    <p (click)="item.authorId ? selectedAuthor(item) : null"
-                                        class="textFont2 authorName">
-                                        ~{{item.authorName}}
-                                    </p>
-                                </mat-card-content>
-                            </mat-card>
+                    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center start"
+                        style="margin-top: 0px;padding-left: 16px;">
+                        <div fxFlex.lt-sm="95%" fxFlex.sm="45%" fxFlex.md="45%" fxFlex.lg="30%"
+                            *ngFor="let item of qoutesList; let index = index">
+                            <div fxFlex style="display: flex;justify-content: center;">
+                                <mat-card [ngStyle.xs]="{'width': '-webkit-fill-available'}" class="cardStyle"
+                                    style="margin-top: 35px;">
+                                    <mat-card-content style="padding-top: 5px;">
+                                        <img style="width: 40px;height: 25px;margin-top:9px;"
+                                            src="../../../assets/images/doubleQuote.png">
+                                        <button mat-icon-button matTooltip="Copy Quote" class="topRightBtn1"
+                                            (click)="copyQuote(item)">
+                                            <mat-icon>content_copy</mat-icon>
+                                        </button>
+                                        <button mat-icon-button matTooltip="View Quote as Image" class="topRightBtn"
+                                            (click)="openImageModel(item.qoutes, item.authorName ?? 'Unknown')">
+                                            <mat-icon>photo_library</mat-icon>
+                                        </button>
+                                        <p class="textFont" style="margin-top: 20px;">
+                                            {{item.qoutes}}
+                                        </p>
+                                        <p (click)="item.authorId ? selectedAuthor(item) : null"
+                                            class="textFont2 authorName">
+                                            ~{{item.authorName}}
+                                        </p>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- FOR RIGHT GAP -->
-        <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div>
+        <!-- <div fxFlex.gt-md="33" fxFlex.gt-sm="25" fxFlex.gt-xs="15"></div> -->
     </div>
 
     <div fxLayout="row" style="margin-top: 50px;">
@@ -81,7 +86,7 @@
         </div>
 
         <!-- TOPICS -->
-        <app-topics [fromHome]="true"></app-topics>
+        <app-topics [fromHome]="true" [hideFooter]="true"></app-topics>
 
         <div fxLayout="row" style="margin-top: 0px;">
             <div fxFlex>
@@ -90,7 +95,7 @@
         </div>
 
         <!-- AUTHORS -->
-        <app-authors [fromHome]="true"></app-authors>
+        <app-authors [fromHome]="true" [hideFooter]="true"></app-authors>
 
         <div style="height: 100px;"></div>
 

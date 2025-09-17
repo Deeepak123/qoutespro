@@ -24,10 +24,12 @@ export class AuthorsComponent implements OnInit {
   searchText: string = '';
   alphabet: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   selectedLetter: string = '';
+  isDataLoaded: boolean = false;
 
   // Misc
   private subscription: Subscription = new Subscription();
   @Input() fromHome: boolean = false;
+  @Input() hideFooter = false;
 
   constructor(
     private router: Router,
@@ -43,10 +45,10 @@ export class AuthorsComponent implements OnInit {
     this.getAuthors();
 
     if (!this.fromHome) {
-      this.commonSer.updateStatsCount();
+      // this.commonSer.updateStatsCount();
 
       // SEO — Title & Meta
-      this.titleService.setTitle('Quotes by Authors – Full List of Famous Authors | IAdoreQuotes');
+      this.titleService.setTitle('Quotes by Authors – Full List of Famous Authors | iAdoreQuotes');
       this.metaService.updateTag({
         name: 'description',
         content:
@@ -78,6 +80,7 @@ export class AuthorsComponent implements OnInit {
     this.authorsList = [];
     const sub = this.apiSer.getAuthors().subscribe({
       next: (val: any[]) => {
+        this.isDataLoaded = true;
         this.authorsList = Array.isArray(val) ? val : [];
         this.applyLetterFilter(); // initial view = All
       },

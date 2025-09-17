@@ -1,8 +1,9 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonService } from 'src/app/utility/common.service';
 import { ApiService } from 'src/app/utility/api.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-search-results',
@@ -16,14 +17,27 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   hasMore = true;
   allLoaded = false;
   isLoading = false;
+  // ADD these fields
+  private scrollEl?: HTMLElement;
+  private readonly bottomThreshold = 150;
+  private readonly scrollHandler = () => this.onScroll();
 
   private subscription: Subscription = new Subscription();
 
   constructor(
     private router: Router,
     private apiSer: ApiService,
-    private commonSer: CommonService
+    private commonSer: CommonService,
+    @Inject(DOCUMENT) private document: Document
   ) { }
+
+  // ADD this lifecycle hook
+  ngAfterViewInit(): void {
+    this.scrollEl = this.document.getElementById('contentScroll') as HTMLElement;
+    if (this.scrollEl) {
+      this.scrollEl.addEventListener('scroll', this.scrollHandler, { passive: true });
+    }
+  }
 
   ngOnInit(): void {
     // get initial 20 results + keyword from sessionStorage
@@ -37,7 +51,11 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       this.searchedQoutesList = JSON.parse(storedList);
     }
 
-    this.commonSer.updateStatsCount();
+    setTimeout(() => {
+      if (this.scrollEl) this.scrollEl.scrollTop = 0;
+    });
+
+    // this.commonSer.updateStatsCount();
   }
 
   loadNextPage(keyword: string): void {
@@ -72,25 +90,25 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    if (!this.hasMore || this.isLoading) {
-      return;
-    }
 
-    const pos = window.pageYOffset + window.innerHeight;
-    const max = document.documentElement.scrollHeight;
+  selectedAuthor(item: any): void {
+    this.router.navigate(['author/' + item.authorId + '/' + item.authorName]);
+  }
 
-    if (pos >= max - 150) {
+  // ADD this method
+  private onScroll(): void {
+    if (!this.hasMore || this.isLoading || !this.scrollEl) return;
+
+    const pos = this.scrollEl.scrollTop + this.scrollEl.clientHeight;
+    const max = this.scrollEl.scrollHeight;
+
+    if (pos >= max - this.bottomThreshold) {
+      // this.page += 1;
       const keyword = sessionStorage.getItem('searchedKeyword');
       if (keyword) {
         this.loadNextPage(keyword);
       }
     }
-  }
-
-  selectedAuthor(item: any): void {
-    this.router.navigate(['author/' + item.authorId + '/' + item.authorName]);
   }
 
   ngOnDestroy(): void {

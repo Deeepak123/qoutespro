@@ -5,6 +5,14 @@ import { ApiService } from 'src/app/utility/api.service';
 import { CommonService } from 'src/app/utility/common.service';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageModelComponent } from '../image-model/image-model.component';
+import { MatDialog } from '@angular/material/dialog';
+import { filter } from 'rxjs/operators';
+import { getAuthorIntro } from '../author-intro';
+import { getAuthorMetaDescription } from '../author-meta';
+
 
 @Component({
   selector: 'app-author-qoutes',
@@ -36,6 +44,9 @@ export class AuthorQoutesComponent implements OnInit {
     private titleService: Title,
     private metaService: Meta,
     private renderer: Renderer2,
+    private clipboard: Clipboard,
+    private snack: MatSnackBar,
+    private dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
@@ -50,7 +61,7 @@ export class AuthorQoutesComponent implements OnInit {
   ngOnInit(): void {
     this.activeRoute.params.subscribe(params => {
       window.scroll(0, 0);
-      let authorId = params.authorId || null;
+      let authorId: number | null = params.authorId ? Number(params.authorId) : null;
       this.authorName = params.authorName || null;
       if (authorId) {
 
@@ -66,14 +77,14 @@ export class AuthorQoutesComponent implements OnInit {
 
         //SEO
         // ✅ SEO Title
-        this.titleService.setTitle(`${this.authorName} Quotes – IAdoreQuotes`);
+        this.titleService.setTitle(`${this.authorName} Quotes – iAdoreQuotes`);
 
         // ✅ Meta Description
-        const metaDesc = this.getMetaDescription(this.authorName);
+        const metaDesc = getAuthorMetaDescription(authorId);
         this.metaService.updateTag({ name: 'description', content: metaDesc });
 
         // ✅ Intro paragraph (hidden)
-        this.introText = this.getIntroParagraph(this.authorName);
+        this.introText = getAuthorIntro(authorId);
 
         // ✅ Schema (remove old one if exists first)
         const oldSchema = this.document.getElementById('quoteSchema');
@@ -90,7 +101,8 @@ export class AuthorQoutesComponent implements OnInit {
             "@type": "Person",
             "name": this.authorName
           },
-          "datePublished": new Date().toISOString().split('T')[0],
+          "datePublished": '2025-08-01',
+          "dateModified": '2025-09-06',
           "url": window.location.href
         };
 
@@ -101,7 +113,7 @@ export class AuthorQoutesComponent implements OnInit {
         this.renderer.appendChild(this.document.head, script);
 
         this.getAuthorQuotes(authorId);
-        this.commonSer.updateStatsCount();
+        // this.commonSer.updateStatsCount();
       }
     })
   }
@@ -118,6 +130,8 @@ export class AuthorQoutesComponent implements OnInit {
           this.hasMore = false;
           this.allLoaded = true;
         }
+
+        this.page += 1;
       } else {
         this.hasMore = false;
         this.allLoaded = true;
@@ -135,14 +149,6 @@ export class AuthorQoutesComponent implements OnInit {
       item.qoutes = tempArr[0];
       item.authorName = tempArr[1];
     });
-  }
-
-  getMetaDescription(author: string): string {
-    return `Best quotes by ${author} including inspirational, motivational and famous sayings from one of the greatest thinkers in history.`;
-  }
-
-  getIntroParagraph(author: string): string {
-    return `Read the best quotes by ${author}. These inspirational and motivational ${author} quotes include famous sayings from this great thinker. Popular variations include ${author} inspirational quotes, ${author} motivational quotes, best quotes from ${author}, famous quotes by ${author}, and top ${author} quotes of all time.`;
   }
 
   getRelatedAuthors(author: string): Array<{ id: number; name: string }> {
@@ -774,10 +780,44 @@ export class AuthorQoutesComponent implements OnInit {
     const max = this.scrollEl.scrollHeight;
 
     if (pos >= max - this.bottomThreshold) {
-      this.page += 1;
+      // this.page += 1;
       this.getAuthorQuotes(+this.activeRoute.snapshot.params['authorId']);
     }
   }
+
+  copyQuote(item: any) {
+    const author = item.authorName ? `— ${item.authorName}` : '';
+    const base = this.document?.defaultView?.location?.origin || 'https://www.iadorequotes.com';
+    //const url = item?.id ? `${base}/quote/${item.id}` : base;
+    const url = "https://iadorequotes.com";
+
+    // Add your brand for organic attribution
+    const text = `"${item.qoutes}" ${author}\n${url}`;
+
+    this.clipboard.copy(text);
+    this.snack.open('Quote copied', 'OK', { duration: 2000 });
+  }
+
+
+  openImageModel(quote: string, author?: string) {
+    console.log(author);
+    author = author ?? 'Unknown';
+    const currentTopicId = null;
+    const dialogRef = this.dialog.open(ImageModelComponent, {
+      data: { quote, author, currentTopicId },
+      panelClass: 'image-modal',          // <-- use this exact class
+      backdropClass: 'custom-backdrop',
+      width: 'min(90vw, 600px)',
+      maxWidth: '600px',
+      disableClose: true,
+      autoFocus: false
+    });
+
+    dialogRef.keydownEvents()
+      .pipe(filter(e => e.key === 'Escape'))
+      .subscribe(() => dialogRef.close());
+  }
+
 
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Inject, OnInit, Renderer2, Input } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { COLLECTIONS, TopicCollection } from '../collections.data';
@@ -16,7 +16,7 @@ export class CollectionsComponent implements OnInit {
 
   ngOnInit(): void {
     // Title (grammar + SEO)
-    this.title.setTitle('Best & Trending Quote Collections – IAdoreQuotes');
+    this.title.setTitle('Best & Trending Quote Collections – iAdoreQuotes');
 
     // Meta description (~150 chars, clear & keyword-rich)
     this.meta.updateTag({

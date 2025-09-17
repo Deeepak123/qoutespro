@@ -5,6 +5,14 @@ import { ApiService } from 'src/app/utility/api.service';
 import { CommonService } from 'src/app/utility/common.service';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageModelComponent } from '../image-model/image-model.component';
+import { MatDialog } from '@angular/material/dialog';
+import { filter } from 'rxjs/operators';
+import { getTopicIntro } from '../topic-intro';
+import { getTopicMetaDescription } from '../topic-meta';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Component({
@@ -23,6 +31,11 @@ export class TopicQoutesComponent implements OnInit {
   introTextDisplay: any
   isLoading = false;
 
+  displayedText: string = '';
+  showReadMore: boolean = false;
+  isLargeScreen: boolean = false;
+  topicId: any;
+
   // ADD these fields
   private scrollEl?: HTMLElement;
   private readonly bottomThreshold = 150;
@@ -39,6 +52,10 @@ export class TopicQoutesComponent implements OnInit {
     private titleService: Title,
     private metaService: Meta,
     private renderer: Renderer2,
+    private clipboard: Clipboard,
+    private snack: MatSnackBar,
+    private dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
@@ -54,7 +71,8 @@ export class TopicQoutesComponent implements OnInit {
   ngOnInit(): void {
     this.activeRoute.params.subscribe(params => {
       window.scroll(0, 0);
-      let topicId = params.topicId || null;
+      let topicId: number | null = params.topicId ? Number(params.topicId) : null;
+      this.topicId = topicId;
       this.topicName = params.topicName || null;
       if (topicId) {
 
@@ -73,16 +91,30 @@ export class TopicQoutesComponent implements OnInit {
         this.titleService.setTitle(`${this.topicName} Quotes – IAdoreQuotes`);
 
         // 2. meta description
-        const metaDescription = this.getMetaDescription(this.topicName);
+        const metaDescription = getTopicMetaDescription(topicId);
         this.metaService.updateTag({ name: 'description', content: metaDescription });
 
         // 3. H1 and intro text
         // (you already assign {{topicName}} in template as page header, so now just create an intro paragraph variable)
-        //for seo intro
+        //for seo intro 
+        //LONG PARAGARPAH write here make it as intor and meta same seprate file
         this.introText = this.getIntroParagraph(this.topicName);
 
         //display seo intro
-        this.introTextDisplay = this.getTopicIntro(this.topicName);
+        this.introTextDisplay = getTopicIntro(topicId);
+        console.log("---------INTRO----------");
+        console.log(this.introTextDisplay);
+        console.log(topicId);
+
+        // Observe screen size
+        this.breakpointObserver.observe([Breakpoints.Large, Breakpoints.XLarge])
+          .subscribe(result => {
+            this.isLargeScreen = result.matches;
+            this.updateDisplayText();
+          });
+
+        console.log("---------META----------");
+        console.log(metaDescription);
 
 
         // ----- STRUCTURED DATA (SEO Schema) -----
@@ -90,12 +122,13 @@ export class TopicQoutesComponent implements OnInit {
           "@context": "https://schema.org",
           "@type": "Article",
           "headline": `${this.topicName} Quotes`,
-          "description": this.getMetaDescription(this.topicName),
+          "description": metaDescription,
           "author": {
             "@type": "Person",
-            "name": "IAdoreQuotes"
+            "name": "iAdoreQuotes"
           },
-          "datePublished": new Date().toISOString().split('T')[0],
+          "datePublished": '2025-08-01',
+          "dateModified": '2025-09-06',
           "url": window.location.href
         };
 
@@ -113,10 +146,11 @@ export class TopicQoutesComponent implements OnInit {
         this.renderer.appendChild(this.document.head, schemaScript);
 
         this.getTopicQuotes(topicId);
-        this.commonSer.updateStatsCount();
+        // this.commonSer.updateStatsCount();
       }
     })
   }
+
 
   getTopicQuotes(topicId: number) {
     this.isLoading = true;
@@ -153,57 +187,22 @@ export class TopicQoutesComponent implements OnInit {
     this.router.navigate(['author/' + item.authorId + "/" + item.authorName]);
   }
 
-  getMetaDescription(topic: string): string {
-    switch (topic) {
-      case 'Anxiety':
-        return 'Powerful anxiety quotes and calming sayings to overcome anxious thoughts.';
-      case 'Confidence':
-        return 'Best confidence quotes and inspiring believe in yourself quotes for daily motivation.';
-      case 'Courage':
-        return 'Inspirational courage quotes and brave sayings to conquer fear and stay strong.';
-      case 'Dreams':
-        return 'Motivational dream quotes and follow your dreams sayings to inspire you to take action.';
-      case 'Failure':
-        return 'Encouraging failure quotes and bounce back sayings to learn from setbacks and keep going.';
-      case 'Fear':
-        return 'Quotes about facing fears, being fearless, and overcoming fear with courage and determination.';
-      case 'Forgiveness':
-        return 'Heartwarming forgiveness quotes and let go sayings to help you forgive and move forward.';
-      case 'Freedom':
-        return 'Freedom quotes and liberty sayings to inspire you to live an independent and liberated life.';
-      case 'Happiness':
-        return 'Beautiful happiness quotes and positive sayings to remind you to stay happy and grateful.';
-      case 'Inspiration':
-        return 'Inspirational quotes and uplifting sayings to motivate and energize your everyday life.';
-      case 'Kindness':
-        return 'Kindness quotes and spread love sayings to inspire gentle behavior and good deeds.';
-      case 'Leadership':
-        return 'Leadership quotes and wise sayings from great leaders to inspire responsibility and vision.';
-      case 'Life':
-        return 'Deep and meaningful life quotes and inspirational sayings about living life to the fullest.';
-      case 'Living':
-        return 'Quotes about living in the moment and enjoying every day with simplicity and gratitude.';
-      case 'Love':
-        return 'Romantic love quotes and heart-touching sayings to express affection and emotional connection.';
-      case 'Motivational':
-        return 'Powerful motivational quotes and inspiring sayings to drive success and keep you moving forward.';
-      case 'Pain':
-        return 'Pain quotes and emotional healing sayings to help you overcome hard times and find strength.';
-      case 'Past':
-        return 'Quotes about letting go of the past and moving forward with lessons and renewed hope.';
-      case 'Success':
-        return 'Success quotes and achievement sayings to inspire hard work, dedication and a winning mindset.';
-      case 'Time':
-        return 'Quotes about value of time and inspirational sayings on using time wisely in life.';
-      case 'Truth':
-        return 'Truth quotes and honest sayings to remind you of the power of honesty and authenticity.';
-      case 'Work':
-        return 'Inspirational work quotes and motivational sayings to stay focused and productive in your job.';
-      default:
-        return `${topic} quotes and sayings to inspire you.`;
+  updateDisplayText() {
+    if (this.isLargeScreen) {
+      this.displayedText = this.introTextDisplay;
+      this.showReadMore = false;
+    } else {
+      // Take only first 2 sentences
+      const sentences = this.introTextDisplay.split('.');
+      this.displayedText = sentences.slice(0, 3).join('.') + (sentences.length > 3 ? '.' : '');
+      this.showReadMore = sentences.length > 3;
     }
   }
 
+  onReadMore() {
+    this.displayedText = this.introTextDisplay;
+    this.showReadMore = false;
+  }
 
   getIntroParagraph(topic: string): string {
     switch (topic) {
@@ -417,35 +416,6 @@ export class TopicQoutesComponent implements OnInit {
     }
   }
 
-  getTopicIntro(topic: string): string {
-    const intros: Record<string, string> = {
-      Happiness: "Happiness is found in simple moments.",
-      Success: "Success is built through effort and persistence.",
-      Love: "Love is the bond that unites hearts.",
-      Life: "Life is a journey of lessons and growth.",
-      Living: "Living fully means embracing every moment.",
-      Kindness: "Kindness is a gift that always matters.",
-      Inspiration: "Inspiration sparks action and new ideas.",
-      Dreams: "Dreams shape the path to our future.",
-      Confidence: "Confidence is believing in your own strength.",
-      Anxiety: "Anxiety may visit, but calm can stay.",
-      Courage: "Courage is facing fear with strength.",
-      Motivational: "Motivation pushes us toward our best self.",
-      Failure: "Failure is not the end, but a lesson.",
-      Fear: "Fear fades when courage takes the lead.",
-      Forgiveness: "Forgiveness heals and sets the heart free.",
-      Freedom: "Freedom is living life on your own terms.",
-      Leadership: "Leadership inspires others to rise higher.",
-      Pain: "Pain teaches resilience and strength.",
-      Past: "The past holds lessons, not limits.",
-      Time: "Time is precious—use it wisely.",
-      Truth: "Truth builds trust and clarity.",
-      Work: "Work with passion to create meaning."
-    };
-
-    return intros[topic] || "Discover inspiring quotes on this topic.";
-  }
-
   // ADD this method
   private onScroll(): void {
     if (!this.hasMore || this.isLoading || !this.scrollEl) return;
@@ -458,6 +428,41 @@ export class TopicQoutesComponent implements OnInit {
       this.getTopicQuotes(+this.activeRoute.snapshot.params['topicId']);
     }
   }
+
+
+  copyQuote(item: any) {
+    const author = item.authorName ? `— ${item.authorName}` : '';
+    const base = this.document?.defaultView?.location?.origin || 'https://www.iadorequotes.com';
+    //const url = item?.id ? `${base}/quote/${item.id}` : base;
+    const url = "https://iadorequotes.com";
+
+    // Add your brand for organic attribution
+    const text = `"${item.qoutes}" ${author}\n${url}`;
+
+    this.clipboard.copy(text);
+    this.snack.open('Quote copied', 'OK', { duration: 2000 });
+  }
+
+
+  openImageModel(quote: string, author?: string) {
+    console.log(author);
+    author = author ?? 'Unknown';
+    const currentTopicId = this.topicId;
+    const dialogRef = this.dialog.open(ImageModelComponent, {
+      data: { quote, author, currentTopicId },
+      panelClass: 'image-modal',          // <-- use this exact class
+      backdropClass: 'custom-backdrop',
+      width: 'min(90vw, 600px)',
+      maxWidth: '600px',
+      disableClose: true,
+      autoFocus: false
+    });
+
+    dialogRef.keydownEvents()
+      .pipe(filter(e => e.key === 'Escape'))
+      .subscribe(() => dialogRef.close());
+  }
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

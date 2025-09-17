@@ -31,14 +31,15 @@
                                         <button mat-button class="textFont" [ngClass]="{ 'active': router.url === '/' }"
                                             (click)="routTo('/')">Home</button>
                                         <button mat-button class="textFont"
-                                            [ngClass]="{ 'active': router.url === '/authors' }"
-                                            (click)="routTo('/authors')">Authors</button>
-                                        <button mat-button class="textFont"
                                             [ngClass]="{ 'active': router.url === '/topics' }"
                                             (click)="routTo('/topics')">Topics</button>
                                         <button mat-button class="textFont"
+                                            [ngClass]="{ 'active': router.url === '/authors' }"
+                                            (click)="routTo('/authors')">Authors</button>
+
+                                        <!-- <button mat-button class="textFont"
                                             [ngClass]="{ 'active': router.url === '/collections' }"
-                                            (click)="routTo('/collections')">🔥Trending Quotes</button>
+                                            (click)="routTo('/collections')">🔥Trending Quotes</button> -->
                                     </div>
                                 </div>
 
